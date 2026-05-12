@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>JSON Formatter, Validator & Minifier — ZeroTools</title>
+  <meta name="description" content="Free online JSON formatter, validator, and minifier. Beautify or minify JSON instantly in your browser. Secure, fast, and no upload required.">
+  <meta name="keywords" content="json formatter online, json validator, json beautifier, json minifier, format json online, validate json, client-side json tool">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools-io.vercel.app/tools/json-formatter">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools-io.vercel.app/tools/json-formatter">
+  <meta property="og:title" content="JSON Formatter & Validator — ZeroTools">
+  <meta property="og:description" content="Free online JSON formatter, validator, and minifier. Beautify or minify JSON instantly in your browser. Secure, fast, and no upload required.">
+  <meta property="og:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools-io.vercel.app/tools/json-formatter">
+  <meta name="twitter:title" content="JSON Formatter & Validator — ZeroTools">
+  <meta name="twitter:description" content="Free online JSON formatter, validator, and minifier. Beautify or minify JSON instantly in your browser.">
+  <meta name="twitter:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JSON Formatter & Validator",
+    "description": "Free online JSON formatter, validator, and minifier. Beautify or minify JSON instantly in your browser. No upload required.",
+    "url": "https://zerotools-io.vercel.app/tools/json-formatter",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <!-- === ADSENSE === -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+
+  <!-- === GA4 === -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script> -->
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/base64">Base64 Encoder</a>
+        <a href="/tools/diff-checker">Diff Checker</a>
+        <a href="/tools/url-encoder">URL Encoder</a>
+        <a href="/tools/json-to-csv">JSON to CSV</a>
+        <a href="/tools/html-entity">HTML Entity</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#format">Formatters</a>
+        <span>/</span>
+        <span>JSON Formatter</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-format">Formatter</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">JSON Formatter & Validator</h1>
+        <p class="tool-intro">A free online JSON formatter and validator to beautifully format, minify, and debug your JSON data instantly in your browser without uploading to a server.</p>
+      </div>
+
+      <!-- AD UNIT 1 (Leaderboard) -->
+      <div class="ad-container">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <!-- Input Section -->
+        <div class="tool-input-section">
+          <div class="section-header">
+            <label class="section-label">Input JSON</label>
+            <div class="input-actions">
+              <button class="btn-ghost" id="btn-paste">Paste</button>
+              <button class="btn-ghost" id="btn-clear">Clear</button>
+              <button class="btn-ghost" id="btn-sample">Load sample</button>
+            </div>
+          </div>
+          <textarea class="textarea" id="input" placeholder="Paste your raw JSON string here..."></textarea>
+        </div>
+
+        <!-- Options Row -->
+        <div class="tool-options">
+          <label>
+            <input type="radio" name="mode" value="format" checked> Beautify (Format)
+          </label>
+          <label>
+            <input type="radio" name="mode" value="minify"> Minify (Compress)
+          </label>
+          <div style="width: 1px; height: 20px; background: var(--border-default); margin: 0 8px;"></div>
+          <label>
+            Indent:
+            <select id="indent-select">
+              <option value="2" selected>2 Spaces</option>
+              <option value="4">4 Spaces</option>
+              <option value="tab">Tab</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Output Section -->
+        <div class="tool-output-section">
+          <div class="section-header">
+            <label class="section-label">Output Result</label>
+            <div class="output-actions">
+              <button class="btn-ghost" id="btn-copy">Copy Result</button>
+              <button class="btn-ghost" id="btn-download">Download .json</button>
+            </div>
+          </div>
+          <div class="output-panel" id="output" data-raw=""></div>
+          
+          <!-- Status Bar -->
+          <div class="output-status" id="status">Ready.</div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 (In-content) -->
+      <div class="ad-container">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is an online JSON Formatter?</h2>
+        <p>A <strong>JSON formatter online</strong> is a developer utility designed to take raw, unreadable, or minified JSON (JavaScript Object Notation) strings and convert them into a structured, human-readable format. JSON is the standard data-interchange format used by modern APIs, configuration files, and databases. However, when systems output JSON, it is typically compressed into a single line to save bandwidth. This makes debugging incredibly difficult for developers.</p>
+        <p>Our JSON Beautifier parses your raw string, checks it for syntax errors, and applies proper indentation (using spaces or tabs), line breaks, and syntax highlighting. This allows you to visually parse object keys, arrays, strings, and boolean values at a glance. Conversely, the JSON Minifier feature allows you to take a formatted file and strip out all unnecessary whitespace, optimizing it for production deployments or payload transmissions.</p>
+
+        <h2>How to use the JSON Formatter & Validator</h2>
+        <ol>
+          <li><strong>Input your data:</strong> Paste your raw JSON string into the input text area above, or click the "Load sample" button to test the tool.</li>
+          <li><strong>Select your mode:</strong> Choose "Beautify" to format the code for readability, or "Minify" to compress the payload.</li>
+          <li><strong>Adjust indentation:</strong> If formatting, select your preferred indentation level (2 spaces, 4 spaces, or Tab).</li>
+          <li><strong>Review the output:</strong> The tool automatically processes your input as you type. If your JSON is valid, it will appear syntax-highlighted in the output panel. If there is a syntax error, a red error message will display the specific failure line.</li>
+          <li><strong>Export:</strong> Use the "Copy Result" button to save the output to your clipboard, or click "Download .json" to save it directly to your local file system.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li><strong>✓ 100% Client-Side Processing:</strong> Your data never leaves your browser. We do not upload your payloads to a server, ensuring absolute privacy for sensitive API keys or personal data.</li>
+          <li><strong>✓ No Sign-up Required:</strong> Instantly access the formatter without creating an account or bypassing paywalls.</li>
+          <li><strong>✓ Real-time Validation:</strong> Instantly catches trailing commas, missing quotes, and structural errors as you type, acting as a robust JSON linter.</li>
+          <li><strong>✓ Syntax Highlighting:</strong> Visually distinguishes keys, strings, integers, and booleans for rapid visual debugging.</li>
+          <li><strong>✓ Bidirectional Formatting:</strong> Seamlessly switch between beautifying for development and minifying for production.</li>
+          <li><strong>✓ Local Storage Caching:</strong> Accidentally closed the tab? Your last input is safely cached in your browser so you don't lose your work.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Is my JSON data secure here?</h3>
+        <p>Yes. ZeroTools operates strictly on the client side. The JSON formatting, parsing, and minifying logic executes entirely within your browser's JavaScript engine. We do not have a backend database, and your code is never transmitted over the internet.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">How do I fix "Invalid JSON" errors?</h3>
+        <p>The most common JSON errors include trailing commas at the end of an array or object, using single quotes (`'`) instead of double quotes (`"`) for keys and strings, and missing brackets. Check the status bar for the exact line and position of the error to isolate the issue.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What is JSON minification?</h3>
+        <p>Minification is the process of removing all unnecessary characters (like spaces, line breaks, and tabs) from your JSON data without changing its structural meaning. This reduces the file size, making API responses faster and saving network bandwidth.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Does this tool support large JSON files?</h3>
+        <p>Yes, because it relies on your local machine's processing power, it can handle very large JSON payloads (multi-megabyte files). However, extremely massive files (e.g., 50MB+) may cause your browser tab to temporarily freeze during the syntax highlighting phase.</p>
+      </section>
+
+      <!-- AD UNIT 3 (Bottom Banner) -->
+      <div class="ad-container">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/base64" class="tool-card">
+            <div class="tool-icon">64</div>
+            <div class="tool-name">Base64 Encoder</div>
+            <div class="tool-desc">Encode text and files to Base64 format.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/jwt-decoder" class="tool-card">
+            <div class="tool-icon">JW</div>
+            <div class="tool-name">JWT Decoder</div>
+            <div class="tool-desc">Decode and inspect JSON Web Tokens.</div>
+            <div class="tool-tag">Security</div>
+          </a>
+          <a href="/tools/diff-checker" class="tool-card">
+            <div class="tool-icon">±</div>
+            <div class="tool-name">Diff Checker</div>
+            <div class="tool-desc">Compare two text blocks to find differences.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/json-to-csv" class="tool-card">
+            <div class="tool-icon">csv</div>
+            <div class="tool-name">JSON to CSV</div>
+            <div class="tool-desc">Convert JSON arrays to flat CSV format.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/json-formatter.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+/* ==========================================================================
+   ZeroTools — Tool Page Layout & Styles
+   File: css/tool.css
+   ========================================================================== */
+
+/* --- 1. PAGE LAYOUT WRAPPER --- */
+.tool-page-wrapper {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  gap: var(--space-8);
+  max-width: var(--tool-max-width);
+  margin: var(--space-10) auto;
+  padding: 0 var(--space-6);
+  align-items: start; /* Prevents sidebar from stretching full height */
+}
+
+/* --- 2. SIDEBAR NAVIGATION --- */
+.tool-sidebar {
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-3);
+  font-weight: var(--weight-medium);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-nav a {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  padding: 6px 8px;
+  margin-left: -8px; /* Optically align text while allowing background padding */
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-nav a:hover {
+  color: var(--accent);
+  background-color: var(--accent-dim);
+}
+
+.sidebar-ad {
+  width: 160px;
+  margin-top: var(--space-6);
+}
+
+/* --- 3. MAIN CONTENT AREA --- */
+.tool-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0; /* Prevent flex blowouts with pre/code tags */
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.breadcrumb a {
+  color: var(--text-secondary);
+}
+
+.breadcrumb a:hover {
+  color: var(--accent);
+}
+
+.breadcrumb span {
+  color: var(--border-strong);
+}
+
+/* Tool Header */
+.tool-header-meta {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.tool-privacy-badge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.tool-title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+.tool-intro {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+  max-width: 650px;
+}
+
+/* --- 4. TOOL INTERFACE (The App Area) --- */
+.tool-interface {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  background: var(--bg-secondary);
+  padding: var(--space-6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+  font-weight: var(--weight-medium);
+}
+
+.input-actions, .output-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.tool-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-4) 0;
+  border-top: 1px dashed var(--border-default);
+  border-bottom: 1px dashed var(--border-default);
+}
+
+/* Form Controls within Options */
+.tool-options label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.tool-options label:hover {
+  color: var(--text-primary);
+}
+
+.tool-options select {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  outline: none;
+  cursor: pointer;
+}
+
+.tool-options select:focus {
+  border-color: var(--accent);
+}
+
+.tool-actions {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.output-status {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  padding-top: var(--space-2);
+  text-align: right;
+  min-height: 24px; /* Reserve space even when empty */
+}
+
+/* --- 5. EXPLAINER CONTENT (SEO & Docs) --- */
+.tool-explainer {
+  max-width: 720px;
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tool-explainer h2 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.tool-explainer h2:first-child {
+  margin-top: 0;
+}
+
+.tool-explainer p {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: var(--line-height-loose);
+  margin-bottom: var(--space-4);
+}
+
+.tool-explainer ul, 
+.tool-explainer ol {
+  color: var(--text-secondary);
+  line-height: var(--line-height-loose);
+  margin-bottom: var(--space-4);
+  padding-left: var(--space-6);
+}
+
+.tool-explainer li {
+  margin-bottom: var(--space-2);
+}
+
+.tool-explainer li::marker {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* --- 6. RELATED TOOLS GRID --- */
+.related-tools {
+  margin-top: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.related-tools h2 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-5);
+  color: var(--text-primary);
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+/* --- 7. RESPONSIVE BREAKPOINTS --- */
+@media (max-width: 900px) {
+  .tool-page-wrapper {
+    grid-template-columns: 1fr;
+  }
+  
+  .tool-sidebar {
+    display: none; /* Hide sidebar on mobile/tablet to prioritize main tool */
+  }
+}
+
+@media (max-width: 600px) {
+  .tool-interface {
+    padding: var(--space-4);
+  }
+  
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tool-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
