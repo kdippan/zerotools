@@ -1,0 +1,196 @@
+<!-- File: privacy.html -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Privacy Policy · ZeroTools</title>
+  <meta name="description" content="Privacy Policy for ZeroTools. Learn how we protect your data with our 100% client-side, zero-tracking developer utilities.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/privacy">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+
+  <style>
+    .legal-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--space-10) var(--space-4);
+    }
+    
+    .legal-content h1 {
+      font-family: var(--font-sans);
+      font-size: var(--text-2xl);
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
+    }
+    
+    .legal-content .last-updated {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .legal-content h2 {
+      font-family: var(--font-sans);
+      font-size: var(--text-xl);
+      color: var(--text-primary);
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-4);
+    }
+
+    .legal-content p, .legal-content li {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .legal-content ul {
+      margin-bottom: var(--space-6);
+      padding-left: var(--space-6);
+    }
+    
+    .legal-content a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    
+    .legal-content a:hover {
+      text-decoration: underline;
+    }
+
+    .highlight-box {
+      background: var(--bg-tertiary);
+      border-left: 4px solid var(--accent);
+      padding: var(--space-4) var(--space-6);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin-bottom: var(--space-8);
+    }
+    .highlight-box p { margin: 0; color: var(--text-primary); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main class="legal-content">
+    <h1>Privacy Policy</h1>
+    <div class="last-updated">Last Updated: May 13, 2026</div>
+
+    <div class="highlight-box">
+      <p><strong>The TL;DR:</strong> ZeroTools is a client-side application. The data you paste into our tools (JSON, code, text, files) <strong>never</strong> leaves your browser. We do not have servers to store your code. We use standard analytics and advertising cookies, but your actual work is 100% private.</p>
+    </div>
+
+    <h2>1. Overview</h2>
+    <p>At ZeroTools ("we", "us", or "our"), privacy is our core feature. This Privacy Policy explains what information is collected, how it is used, and how we ensure your data remains secure when you visit our website (zerotools.dev).</p>
+
+    <h2>2. What We Collect (And What We Don't)</h2>
+    <p><strong>Tool Data (Zero Collection):</strong> Every utility on ZeroTools executes locally within your browser using JavaScript. When you paste JSON to format, upload an image to convert to Base64, or test a regular expression, that data is processed on your device's CPU. We do not transmit, log, or store your inputs or outputs.</p>
+    <p><strong>Usage Data (Aggregated):</strong> We use Google Analytics to understand how visitors interact with our site. This collects anonymous, aggregated data such as:</p>
+    <ul>
+      <li>Pages visited and time spent on the site</li>
+      <li>Browser type and operating system</li>
+      <li>Referring URLs</li>
+      <li>General geographic location (country/city level)</li>
+    </ul>
+
+    <h2>3. Cookies and Tracking Technologies</h2>
+    <p>ZeroTools uses cookies to enhance your experience and support the free operation of the site. You can control cookie preferences through your browser settings.</p>
+    <ul>
+      <li><strong>Local Storage:</strong> We use your browser's <code>localStorage</code> to save your UI preferences (like dark/light mode) and to temporarily cache the last input in a tool so you don't lose your work if you accidentally refresh the page. This data remains on your machine.</li>
+      <li><strong>Google Analytics Cookies:</strong> (e.g., <code>_ga</code>, <code>_gid</code>) Used to distinguish users and throttle request rates. These expire after a set duration (typically 2 years for <code>_ga</code> and 24 hours for <code>_gid</code>).</li>
+      <li><strong>Google AdSense Cookies:</strong> We use Google AdSense to display advertisements. Google uses cookies to serve ads based on your prior visits to our website or other websites on the internet.</li>
+    </ul>
+
+    <h2>4. Third-Party Services (Google AdSense Disclosure)</h2>
+    <p>To keep ZeroTools free, we rely on advertising revenue. Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites.</p>
+    <ul>
+      <li>Google's use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.</li>
+      <li>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Ads Settings</a>.</li>
+    </ul>
+
+    <h2>5. Children's Privacy</h2>
+    <p>Our services are intended for developers and professionals. We do not knowingly collect personal information from children under the age of 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.</p>
+
+    <h2>6. Changes to This Privacy Policy</h2>
+    <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top.</p>
+
+    <h2>7. Contact Us</h2>
+    <p>If you have any questions about this Privacy Policy or how your data is handled, please contact us by opening an issue on our <a href="https://github.com/kdippan/zerotools/issues" target="_blank" rel="noopener">GitHub repository</a>.</p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
