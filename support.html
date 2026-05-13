@@ -1,0 +1,165 @@
+<!-- File: support.html (Recommended for the BuyMeACoffee footer link) -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Support ZeroTools</title>
+  <meta name="description" content="Support the development of ZeroTools, a privacy-first collection of developer utilities.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/support">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+
+  <style>
+    .support-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: var(--space-16) var(--space-4);
+      text-align: center;
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .support-wrapper h1 {
+      font-family: var(--font-sans);
+      font-size: var(--text-2xl);
+      color: var(--text-primary);
+      margin-bottom: var(--space-4);
+    }
+    
+    .support-wrapper p {
+      font-family: var(--font-sans);
+      font-size: var(--text-lg);
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-8);
+    }
+
+    .support-buttons {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-sponsor {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-default);
+      padding: 16px 24px;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-sponsor:hover {
+      border-color: var(--accent);
+      background: var(--bg-elevated);
+      transform: translateY(-2px);
+    }
+
+    .btn-sponsor svg {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main class="support-wrapper">
+    <h1>Support ZeroTools</h1>
+    <p>ZeroTools is built and maintained by a single developer. The goal is to provide fast, reliable, and completely private tools for the community—forever free.</p>
+    <p>If these utilities save you time, consider supporting the hosting costs and late-night coding sessions!</p>
+
+    <div class="support-buttons">
+      <a href="https://buymeacoffee.com/dippanbhusal" target="_blank" rel="noopener" class="btn-sponsor" style="border-color: #FFDD00;">
+        <svg fill="#FFDD00" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.216 1.772a.39.39 0 0 0-.27-.13H4.053a.4.4 0 0 0-.397.352L3.1 5.922h16.291l-.105-.411-.005-.015-.008-.024-.012-.03-.016-.037-.02-.041-.027-.046-.033-.052-.042-.056-.051-.06-.064-.063-.079-.064-.097-.063-.12-.057-.151-.048-.189-.036h-.002l-.234-.02H4.492l-.246.02h-.002l-.196.036-.157.048-.126.057-.101.063-.083.064-.067.063-.053.06-.044.056-.035.052-.028.046-.021.041-.016.037-.012.03-.008.024-.005.015L2.106 6.05h19.787l-1.077-4.278zm-1.614 6.13H5.398l.613 11.236a2.637 2.637 0 0 0 2.632 2.493h6.714a2.637 2.637 0 0 0 2.632-2.493l.613-11.236z"/></svg>
+        Buy Me a Coffee
+      </a>
+
+      <a href="https://github.com/sponsors/kdippan" target="_blank" rel="noopener" class="btn-sponsor">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+        GitHub Sponsors
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
