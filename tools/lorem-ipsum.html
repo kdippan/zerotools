@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Lorem Ipsum Generator — ZeroTools</title>
+  <meta name="description" content="Generate classic, hipster, or developer Lorem Ipsum placeholder text instantly. Customize by words, sentences, or paragraphs. 100% client-side.">
+  <meta name="keywords" content="lorem ipsum generator, dummy text generator, hipster ipsum, dev ipsum, placeholder text, client side text generator">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools-io.vercel.app/tools/lorem-ipsum">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools-io.vercel.app/tools/lorem-ipsum">
+  <meta property="og:title" content="Lorem Ipsum Generator — ZeroTools">
+  <meta property="og:description" content="Generate custom placeholder text in seconds. Choose from classic, hipster, or developer variants. Fast and offline.">
+  <meta property="og:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools-io.vercel.app/tools/lorem-ipsum">
+  <meta name="twitter:title" content="Lorem Ipsum Generator — ZeroTools">
+  <meta name="twitter:description" content="Generate custom placeholder text in seconds. Choose from classic, hipster, or developer variants. Fast and offline.">
+  <meta name="twitter:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Lorem Ipsum Generator",
+    "description": "Generate classic, hipster, or developer Lorem Ipsum placeholder text instantly.",
+    "url": "https://zerotools-io.vercel.app/tools/lorem-ipsum",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specific styles for Lorem Ipsum */
+    .generator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    @media (max-width: 768px) {
+      .generator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .config-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+    }
+
+    .config-title {
+      font-family: var(--font-sans);
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .input-group {
+      margin-bottom: var(--space-4);
+    }
+
+    .input-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .control-row {
+      display: flex;
+      gap: var(--space-3);
+    }
+    
+    #qty-input {
+      width: 100px;
+    }
+    
+    #unit-select {
+      flex: 1;
+    }
+
+    .variant-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    .variant-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-3);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+    }
+    
+    .variant-label:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border-strong);
+    }
+    
+    .variant-radio {
+      display: none;
+    }
+    
+    .variant-radio:checked + .variant-label {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+    
+    .variant-title {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    
+    .variant-desc {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+    }
+    
+    .variant-radio:checked + .variant-label .variant-title,
+    .variant-radio:checked + .variant-label .variant-desc {
+      color: var(--accent);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-3);
+      cursor: pointer;
+    }
+    
+    .checkbox-group input {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+    }
+    
+    .checkbox-group span {
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--text-primary);
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/word-counter">Word Counter</a>
+        <a href="/tools/markdown-html">Markdown Converter</a>
+        <a href="/tools/password-generator">Password Generator</a>
+        <a href="/tools/uuid-generator">UUID Generator</a>
+        <a href="/tools/diff-checker">Diff Checker</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#generate">Generators</a>
+        <span>/</span>
+        <span>Lorem Ipsum</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-generate">Generator</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">Lorem Ipsum Generator</h1>
+        <p class="tool-intro">Instantly generate high-quality placeholder text for mockups and UI designs. Choose between Classic Latin, Hipster, Developer, and Cupcake variants.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div id="tool">
+
+        <div class="generator-grid">
+          
+          <!-- Controls Column -->
+          <div class="config-card">
+            <h2 class="config-title">Length & Format</h2>
+            
+            <div class="input-group">
+              <label>Amount</label>
+              <div class="control-row">
+                <input type="number" class="input" id="qty-input" value="3" min="1" max="5000">
+                <select class="input" id="unit-select">
+                  <option value="paragraphs" selected>Paragraphs</option>
+                  <option value="sentences">Sentences</option>
+                  <option value="words">Words</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="input-group" style="margin-top: var(--space-6);">
+              <label class="checkbox-group">
+                <input type="checkbox" id="opt-startlorem" checked>
+                <span>Start with "Lorem ipsum dolor sit amet..."</span>
+              </label>
+              <label class="checkbox-group">
+                <input type="checkbox" id="opt-html">
+                <span>Wrap in HTML tags (&lt;p&gt; / &lt;span&gt;)</span>
+              </label>
+            </div>
+            
+            <button class="btn-primary" id="btn-run" style="width: 100%; margin-top: var(--space-2);">Generate Text →</button>
+          </div>
+
+          <!-- Variants Column -->
+          <div class="config-card">
+            <h2 class="config-title">Vocabulary Variant</h2>
+            
+            <div class="variant-grid">
+              <div>
+                <input type="radio" name="variant" id="var-classic" value="classic" class="variant-radio" checked>
+                <label for="var-classic" class="variant-label">
+                  <span class="variant-title">Classic</span>
+                  <span class="variant-desc">Standard Latin</span>
+                </label>
+              </div>
+              
+              <div>
+                <input type="radio" name="variant" id="var-hipster" value="hipster" class="variant-radio">
+                <label for="var-hipster" class="variant-label">
+                  <span class="variant-title">Hipster</span>
+                  <span class="variant-desc">Artisan / Retro</span>
+                </label>
+              </div>
+              
+              <div>
+                <input type="radio" name="variant" id="var-dev" value="dev" class="variant-radio">
+                <label for="var-dev" class="variant-label">
+                  <span class="variant-title">Developer</span>
+                  <span class="variant-desc">Tech / Coding</span>
+                </label>
+              </div>
+              
+              <div>
+                <input type="radio" name="variant" id="var-cupcake" value="cupcake" class="variant-radio">
+                <label for="var-cupcake" class="variant-label">
+                  <span class="variant-title">Cupcake</span>
+                  <span class="variant-desc">Sweet / Dessert</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Output Section -->
+        <div class="tool-output-section">
+          <div class="section-header">
+            <label class="section-label">OUTPUT</label>
+            <div class="output-actions">
+              <button class="btn-ghost" id="btn-regenerate">Regenerate</button>
+              <button class="btn-ghost" id="btn-copy">Copy Text</button>
+              <button class="btn-ghost" id="btn-download">Download (.txt)</button>
+            </div>
+          </div>
+          
+          <div class="output-panel" id="output" data-raw="" style="min-height: 240px; padding: var(--space-5);">
+             <!-- JS rendered text -->
+          </div>
+          
+          <!-- Status bar -->
+          <div class="output-status" id="status"></div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Lorem Ipsum Generator?</h2>
+        <p>A <strong>lorem ipsum generator</strong> creates nonsensical placeholder text that mimics the flow and character distribution of real English text. Originally derived from a 1st-century BC Latin text by Cicero, it is used by graphic designers, web developers, and typographers to fill text blocks in wireframes, mockups, and templates without distracting the viewer with readable content.</p>
+        <p>ZeroTools provides a fast, offline generator that can be strictly customized by the number of words, sentences, or paragraphs you need. If the classic Latin feels too rigid for your modern app design, you can switch the vocabulary bank to generate themed text like "Hipster" or "Developer" jargon.</p>
+
+        <h2>How to use the Generator</h2>
+        <ol>
+          <li><strong>Set the Length:</strong> Enter a number and choose whether you want words, individual sentences, or full paragraphs.</li>
+          <li><strong>Select a Flavor:</strong> 
+            <ul>
+              <li><em>Classic:</em> The traditional Latin text (standard for professional mockups).</li>
+              <li><em>Hipster:</em> Trendy, artisanal words (kombucha, vinyl, fixie).</li>
+              <li><em>Developer:</em> Tech jargon and buzzwords (Kubernetes, async, pipeline).</li>
+              <li><em>Cupcake:</em> Food and dessert terms.</li>
+            </ul>
+          </li>
+          <li><strong>Formatting:</strong> Optionally check "Wrap in HTML tags" if you are pasting directly into a raw HTML file. This will wrap paragraphs in `&lt;p&gt;` tags.</li>
+          <li><strong>Generate:</strong> The text updates immediately. Click "Regenerate" to get a fresh random output with the same settings.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your text generates instantly with zero server requests.</li>
+          <li>✓ No sign-up or account required.</li>
+          <li>✓ <strong>Custom Word Banks:</strong> Four distinct vocabularies embedded directly into the JavaScript engine.</li>
+          <li>✓ <strong>HTML Output Mode:</strong> Skip the manual `<p>` tagging and copy production-ready structural HTML.</li>
+          <li>✓ <strong>Format Persistence:</strong> Your preferred length and variant are saved locally for your next visit.</li>
+          <li>✓ One-click clipboard copy or `.txt` file download.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why use Lorem Ipsum instead of "test test test"?</h3>
+        <p>When you use repeating words like "test", the resulting block of text creates vertical patterns and 'rivers' of whitespace that don't occur in natural language. This gives designers a false impression of how a font weight, line height, or text alignment will actually look. Lorem Ipsum provides a natural distribution of letters and word lengths.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What does "Lorem ipsum dolor sit amet" actually mean?</h3>
+        <p>It is heavily modified, scrambled Latin derived from Cicero's <em>De finibus bonorum et malorum</em> ("On the Ends of Good and Evil"). The original phrase translates roughly to: "Nor is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain..."</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Is there a limit to how much I can generate?</h3>
+        <p>To prevent browser memory crashes, this client-side tool caps generation at 5,000 words, 500 sentences, or 100 paragraphs per click. This is more than enough to fill any standard web page template or UI component.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/word-counter" class="tool-card">
+            <div class="tool-icon">12</div>
+            <div class="tool-name">Word Counter</div>
+            <div class="tool-desc">Count words, characters, and reading time.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/markdown-html" class="tool-card">
+            <div class="tool-icon">M↓</div>
+            <div class="tool-name">Markdown Converter</div>
+            <div class="tool-desc">Convert Markdown to sanitized HTML.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/uuid-generator" class="tool-card">
+            <div class="tool-icon">#</div>
+            <div class="tool-name">UUID Generator</div>
+            <div class="tool-desc">Generate bulk unique identifiers instantly.</div>
+            <div class="tool-tag">Generator</div>
+          </a>
+          <a href="/tools/diff-checker" class="tool-card">
+            <div class="tool-icon">±</div>
+            <div class="tool-name">Diff Checker</div>
+            <div class="tool-desc">Compare text and highlight differences.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/lorem-ipsum.js"></script>
+
+</body>
+</html>

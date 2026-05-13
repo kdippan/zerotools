@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Cron Expression Generator — ZeroTools</title>
+  <meta name="description" content="Build, parse, and translate cron expressions instantly. Free online cron job generator with next run time predictions. 100% client-side privacy.">
+  <meta name="keywords" content="cron generator online, cron expression builder, crontab calculator, cron syntax, linux cron">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/cron-generator">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cron Expression Generator — ZeroTools">
+  <meta property="og:description" content="Build complex cron job schedules visually, or translate raw cron strings into human-readable text instantly offline.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/cron-generator">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cron Expression Generator — ZeroTools">
+  <meta name="twitter:description" content="Build and translate cron expressions instantly offline.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta name="twitter:creator" content="@dippanbhusal">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Structured Data — Tool page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Cron Expression Generator",
+    "description": "Free online cron generator to build and parse crontab syntax with next run predictions.",
+    "url": "https://zerotools.dev/tools/cron-generator",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { "@type": "Person", "name": "Dippan Bhusal", "url": "https://github.com/kdippan" }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specific styles for Cron Generator */
+    .cron-editor-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    
+    .cron-input-large {
+      width: 100%;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--text-2xl);
+      color: var(--accent);
+      padding: var(--space-3) var(--space-4);
+      text-align: center;
+      letter-spacing: 0.1em;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .cron-input-large:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .builder-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+    @media (max-width: 768px) {
+      .builder-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .cron-part {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .part-title {
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-default);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+
+    .part-desc {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      min-height: 32px;
+      line-height: 1.4;
+    }
+
+    .explanation-panel {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: var(--space-6);
+    }
+    @media (max-width: 900px) {
+      .explanation-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .human-readable {
+      font-family: var(--font-sans);
+      font-size: var(--text-lg);
+      line-height: 1.6;
+      color: var(--text-primary);
+      padding: var(--space-4);
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent);
+    }
+
+    .dow-checkboxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .dow-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    
+    .dow-label input[type="checkbox"] {
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .presets-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: center;
+    }
+
+    .next-runs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/timestamp-converter">Timestamp Converter</a>
+        <a href="/tools/regex-tester">Regex Tester</a>
+        <a href="/tools/chmod-calculator">Chmod Calculator</a>
+        <a href="/tools/uuid-generator">UUID Generator</a>
+        <a href="/tools/diff-checker">Diff Checker</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#generate">Generators</a>
+        <span>/</span>
+        <span>Cron Generator</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-generate">Generator</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">Cron Expression Generator</h1>
+        <p class="tool-intro">Visually build complex cron schedules or translate existing raw strings into plain English. Instantly calculates future run times completely offline.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <div class="cron-editor-panel">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
+            <label class="section-label">CRON STRING</label>
+            <div class="input-actions" style="display: flex; gap: 8px;">
+              <button class="btn-ghost" id="btn-paste">Paste</button>
+              <button class="btn-ghost" id="btn-copy">Copy</button>
+              <button class="btn-ghost" id="btn-clear">Clear</button>
+            </div>
+          </div>
+          
+          <input type="text" id="cron-input" class="cron-input-large" value="* * * * *" spellcheck="false" autocomplete="off">
+          
+          <!-- Sync Status -->
+          <div class="output-status" id="status" style="margin-top: var(--space-2); text-align: right; padding: 0;"></div>
+
+          <div class="builder-grid">
+            
+            <div class="cron-part">
+              <div class="part-title">Minute</div>
+              <select class="input" id="ui-minute">
+                <option value="*" selected>Every Minute (*)</option>
+                <option value="*/2">Every 2 mins (*/2)</option>
+                <option value="*/5">Every 5 mins (*/5)</option>
+                <option value="*/10">Every 10 mins (*/10)</option>
+                <option value="*/15">Every 15 mins (*/15)</option>
+                <option value="*/30">Every 30 mins (*/30)</option>
+                <option value="0">At min 0</option>
+                <option value="custom">Custom...</option>
+              </select>
+              <div class="part-desc" id="exp-minute">Every minute</div>
+            </div>
+
+            <div class="cron-part">
+              <div class="part-title">Hour</div>
+              <select class="input" id="ui-hour">
+                <option value="*" selected>Every Hour (*)</option>
+                <option value="*/2">Every 2 hours (*/2)</option>
+                <option value="*/3">Every 3 hours (*/3)</option>
+                <option value="*/4">Every 4 hours (*/4)</option>
+                <option value="*/6">Every 6 hours (*/6)</option>
+                <option value="*/12">Every 12 hours (*/12)</option>
+                <option value="custom">Custom...</option>
+              </select>
+              <div class="part-desc" id="exp-hour">Every hour</div>
+            </div>
+
+            <div class="cron-part">
+              <div class="part-title">Day (Month)</div>
+              <select class="input" id="ui-dom">
+                <option value="*" selected>Every Day (*)</option>
+                <option value="custom">Custom...</option>
+                <!-- 1-31 populated by JS -->
+              </select>
+              <div class="part-desc" id="exp-dom">Every day</div>
+            </div>
+
+            <div class="cron-part">
+              <div class="part-title">Month</div>
+              <select class="input" id="ui-month">
+                <option value="*" selected>Every Month (*)</option>
+                <option value="1">Jan (1)</option>
+                <option value="2">Feb (2)</option>
+                <option value="3">Mar (3)</option>
+                <option value="4">Apr (4)</option>
+                <option value="5">May (5)</option>
+                <option value="6">Jun (6)</option>
+                <option value="7">Jul (7)</option>
+                <option value="8">Aug (8)</option>
+                <option value="9">Sep (9)</option>
+                <option value="10">Oct (10)</option>
+                <option value="11">Nov (11)</option>
+                <option value="12">Dec (12)</option>
+                <option value="custom">Custom...</option>
+              </select>
+              <div class="part-desc" id="exp-month">Every month</div>
+            </div>
+
+            <div class="cron-part">
+              <div class="part-title">Day (Week)</div>
+              <div class="dow-checkboxes">
+                <label class="dow-label"><input type="checkbox" id="dow-mon"> M</label>
+                <label class="dow-label"><input type="checkbox" id="dow-tue"> T</label>
+                <label class="dow-label"><input type="checkbox" id="dow-wed"> W</label>
+                <label class="dow-label"><input type="checkbox" id="dow-thu"> T</label>
+                <label class="dow-label"><input type="checkbox" id="dow-fri"> F</label>
+                <label class="dow-label"><input type="checkbox" id="dow-sat"> S</label>
+                <label class="dow-label"><input type="checkbox" id="dow-sun"> S</label>
+              </div>
+              <div class="part-desc" id="exp-dow" style="margin-top: auto;">Every day of week</div>
+            </div>
+
+          </div>
+
+          <div class="presets-wrap" style="margin-top: var(--space-4); border-top: 1px solid var(--border-default); padding-top: var(--space-3);">
+            <label class="section-label" style="margin-right: 8px;">PRESETS</label>
+            <select class="input" id="preset-select" style="width: auto; padding: 4px 8px; font-size: var(--text-xs); height: 28px;">
+              <option value="" disabled selected>Load common preset...</option>
+              <option value="@hourly">@hourly (0 * * * *)</option>
+              <option value="@daily">@daily / Midnight (0 0 * * *)</option>
+              <option value="@weekly">@weekly / Sun Midnight (0 0 * * 0)</option>
+              <option value="@monthly">@monthly (0 0 1 * *)</option>
+              <option value="@yearly">@yearly (0 0 1 1 *)</option>
+              <option value="weekday9am">Weekdays at 9:00 AM</option>
+              <option value="businesshours">Every hour, business hours</option>
+            </select>
+            <button class="btn-ghost" id="btn-sample" style="display: none;">Sample</button>
+          </div>
+
+        </div>
+
+        <!-- Explanation & Next Runs -->
+        <div class="explanation-panel">
+          
+          <div>
+            <div class="section-header">
+              <label class="section-label">HUMAN READABLE EXPLANATION</label>
+            </div>
+            <div class="human-readable" id="human-output">
+              <!-- JS generates full sentence here based on the part explanations -->
+              <span style="color: var(--text-secondary);">Waiting for input...</span>
+            </div>
+            
+            <div class="section-header" style="margin-top: var(--space-6); margin-bottom: var(--space-3);">
+              <label class="section-label">SYNTAX QUICK REFERENCE</label>
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: var(--text-sm); border: 1px solid var(--border-subtle);">
+              <tr style="background: var(--bg-secondary); border-bottom: 1px solid var(--border-subtle);">
+                <th style="text-align: left; padding: 8px;">Symbol</th>
+                <th style="text-align: left; padding: 8px;">Meaning</th>
+                <th style="text-align: left; padding: 8px;">Example</th>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 8px; color: var(--accent);"><code>*</code></td>
+                <td style="padding: 8px; color: var(--text-secondary);">Any value</td>
+                <td style="padding: 8px;"><code>* * * * *</code> (Every min)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 8px; color: var(--accent);"><code>,</code></td>
+                <td style="padding: 8px; color: var(--text-secondary);">Value list separator</td>
+                <td style="padding: 8px;"><code>1,5,10 * * * *</code></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 8px; color: var(--accent);"><code>-</code></td>
+                <td style="padding: 8px; color: var(--text-secondary);">Range of values</td>
+                <td style="padding: 8px;"><code>0 9-17 * * *</code></td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; color: var(--accent);"><code>/</code></td>
+                <td style="padding: 8px; color: var(--text-secondary);">Step values</td>
+                <td style="padding: 8px;"><code>*/5 * * * *</code> (Every 5)</td>
+              </tr>
+            </table>
+          </div>
+
+          <div>
+            <div class="section-header">
+              <label class="section-label">NEXT 5 RUN TIMES</label>
+            </div>
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: var(--space-4); height: calc(100% - 30px);">
+              <ul class="next-runs-list" id="next-runs-list">
+                <!-- JS populated -->
+                <li style="color: var(--text-tertiary);">Calculating...</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Hidden button to satisfy general spec logic -->
+        <button id="btn-run" style="display: none;">Generate</button>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Cron Expression?</h2>
+        <p>A <strong>cron expression</strong> is a string comprising five (sometimes six or seven) sub-expressions that describe individual details of a schedule. This syntax is primarily used by the <code>cron</code> daemon—a time-based job scheduler in Unix-like computer operating systems. Developers and system administrators use it to set up routines for tasks like database backups, system maintenance, and sending recurring emails.</p>
+        <p>Because the syntax (e.g., <code>0 9 * * 1-5</code>) can be incredibly cryptic to read at a glance, an interactive Cron Generator is essential for ensuring your automated tasks trigger exactly when intended, preventing server overloads or missed events.</p>
+
+        <h2>How to use the Cron Generator</h2>
+        <ol>
+          <li><strong>Visual Builder:</strong> Use the dropdown menus and checkboxes to build your schedule logically. Select "Every 5 minutes" or specific days of the week, and watch the raw cron string update dynamically.</li>
+          <li><strong>Reverse Translation:</strong> Paste an existing, confusing cron string directly into the main input box. The tool will parse it and break down exactly what it means in plain English.</li>
+          <li><strong>Predictive Engine:</strong> Always verify your schedule by looking at the "Next 5 Run Times" panel to ensure the logic matches your real-world expectations.</li>
+          <li><strong>Presets:</strong> Use the presets dropdown to quickly load standard configurations like <code>@daily</code> or business-hour schedules.</li>
+        </ol>
+
+        <h2>Features</h2>
+        <ul>
+          <li>✓ 100% client-side — your server architecture and job schedules remain private.</li>
+          <li>✓ <strong>Bidirectional Sync:</strong> Visual inputs update the string, and the string updates the visual inputs.</li>
+          <li>✓ <strong>Predictive Calculation:</strong> Our custom client-side engine calculates future execution dates instantly.</li>
+          <li>✓ Full support for standard 5-part syntax including step values (<code>/</code>), ranges (<code>-</code>), and lists (<code>,</code>).</li>
+        </ul>
+
+        <h2>FAQ</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why does my cron string have 6 parts instead of 5?</h3>
+        <p>Standard Unix cron uses 5 parts: Minute, Hour, Day of Month, Month, and Day of Week. However, some extended scheduling systems (like AWS EventBridge, Quartz, or Spring) use a 6th or 7th part for "Seconds" or "Year". Our tool focuses on the standard, universally compatible 5-part POSIX syntax.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Does Sunday count as 0 or 7?</h3>
+        <p>In standard cron syntax, the Day of Week field allows both <code>0</code> and <code>7</code> to represent Sunday. Our tool normalizes this to standard numeric arrays internally, ensuring compatibility across all modern Linux distributions.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What does `*/15` mean?</h3>
+        <p>The forward slash represents a "step" value. When used in the minute column like <code>*/15 * * * *</code>, it instructs the server to run the job exactly every 15 minutes (at :00, :15, :30, and :45 past the hour).</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/timestamp-converter" class="tool-card">
+            <div class="tool-icon">⏳</div>
+            <div class="tool-name">Timestamp Converter</div>
+            <div class="tool-desc">Convert Unix timestamps to readable dates.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/regex-tester" class="tool-card">
+            <div class="tool-icon">/.*/</div>
+            <div class="tool-name">Regex Tester</div>
+            <div class="tool-desc">Test JavaScript regular expressions safely.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/chmod-calculator" class="tool-card">
+            <div class="tool-icon">755</div>
+            <div class="tool-name">Chmod Calculator</div>
+            <div class="tool-desc">Calculate Linux file permissions easily.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/uuid-generator" class="tool-card">
+            <div class="tool-icon">#</div>
+            <div class="tool-name">UUID Generator</div>
+            <div class="tool-desc">Generate bulk random UUIDs offline.</div>
+            <div class="tool-tag">Generator</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/cron-generator.js"></script>
+
+  <script>
+    // A tiny script attached here to do what the main tool logic JS can't:
+    // Update the human-readable text block safely by wrapping the parts logic.
+    // The main script populates individual labels, we just concatenate them here.
+    const obs = new MutationObserver(() => {
+      const min = document.getElementById('exp-minute')?.textContent || '';
+      const hr = document.getElementById('exp-hour')?.textContent || '';
+      const dom = document.getElementById('exp-dom')?.textContent || '';
+      const mo = document.getElementById('exp-month')?.textContent || '';
+      const dow = document.getElementById('exp-dow')?.textContent || '';
+      
+      const humanEl = document.getElementById('human-output');
+      if(humanEl && min && !min.includes('Invalid')) {
+        let sentence = `${min}, ${hr.toLowerCase()}, ${dom.toLowerCase()}, ${mo.toLowerCase()}, ${dow.toLowerCase()}.`;
+        // Basic cleanup for English grammar
+        sentence = sentence.replace('Every minute, every hour, every day, every month, every day of week.', 'Every minute of every day.');
+        sentence = sentence.replace('At minute', 'at minute').replace('Past hour', 'past hour');
+        
+        humanEl.innerHTML = `<span style="color: var(--accent); font-weight: 500;">"${sentence}"</span>`;
+      }
+    });
+    
+    window.addEventListener('DOMContentLoaded', () => {
+       const expMin = document.getElementById('exp-minute');
+       if(expMin) obs.observe(expMin, { childList: true, characterData: true, subtree: true });
+    });
+  </script>
+</body>
+</html>

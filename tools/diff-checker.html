@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Diff Checker — ZeroTools</title>
+  <meta name="description" content="Compare two text blocks online and highlight the differences instantly. 100% client-side text comparison tool.">
+  <meta name="keywords" content="diff checker online, text compare online, file diff, string compare, check differences text">
+  <link rel="canonical" href="https://zerotools.dev/tools/diff-checker">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Diff Checker — ZeroTools">
+  <meta property="og:description" content="Compare two text blocks online and highlight the differences instantly. 100% client-side text comparison tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/diff-checker">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Diff Checker — ZeroTools">
+  <meta name="twitter:description" content="Compare two text blocks online and highlight the differences instantly. 100% client-side text comparison tool.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta name="twitter:creator" content="@dippanbhusal">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+  <!-- Structured Data — Tool page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Diff Checker",
+    "description": "Compare two text blocks online and highlight the differences instantly. 100% client-side text comparison tool.",
+    "url": "https://zerotools.dev/tools/diff-checker",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { "@type": "Person", "name": "Dippan Bhusal", "url": "https://github.com/kdippan" }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub">
+        <!-- GitHub SVG icon -->
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme">
+        <!-- Sun/Moon SVG icon -->
+      </button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/json-formatter">JSON Formatter</a>
+        <a href="/tools/word-counter">Word Counter</a>
+        <a href="/tools/regex-tester">Regex Tester</a>
+        <a href="/tools/css-minifier">CSS Minifier</a>
+        <a href="/tools/markdown-html">Markdown to HTML</a>
+      </nav>
+      <!-- Sidebar ad unit -->
+      <div class="ad-container sidebar-ad">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#text">Text</a>
+        <span>/</span>
+        <span>Diff Checker</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-text">Text</span>
+          <span class="tool-privacy-badge">🔒 Client-side only</span>
+        </div>
+        <h1 class="tool-title">Diff Checker</h1>
+        <p class="tool-intro">Compare two text blocks or code snippets online to instantly find the differences. 100% client-side privacy.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
+          <!-- Original Text -->
+          <div class="tool-input-section">
+            <div class="section-header">
+              <label class="section-label">ORIGINAL TEXT</label>
+            </div>
+            <textarea class="textarea" id="original" placeholder="Paste original text here..." style="min-height: 250px; font-size: var(--text-sm); line-height: 1.5; white-space: pre;"></textarea>
+          </div>
+
+          <!-- Modified Text -->
+          <div class="tool-input-section">
+            <div class="section-header">
+              <label class="section-label">MODIFIED TEXT</label>
+            </div>
+            <textarea class="textarea" id="modified" placeholder="Paste modified text here..." style="min-height: 250px; font-size: var(--text-sm); line-height: 1.5; white-space: pre;"></textarea>
+          </div>
+        </div>
+
+        <div class="tool-options" style="display: flex; gap: var(--space-4); margin-bottom: var(--space-4); padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-subtle); align-items: center;">
+            <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-right: auto;">Diff Level:</span>
+            <label style="cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: var(--text-sm);">
+                <input type="radio" name="diff-mode" value="char" style="accent-color: var(--accent);"> Character
+            </label>
+            <label style="cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: var(--text-sm);">
+                <input type="radio" name="diff-mode" value="word" checked style="accent-color: var(--accent);"> Word
+            </label>
+            <label style="cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: var(--text-sm);">
+                <input type="radio" name="diff-mode" value="line" style="accent-color: var(--accent);"> Line
+            </label>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="tool-actions" style="justify-content: flex-start; padding-bottom: 0;">
+          <button class="btn-primary" id="btn-run">Compare Text →</button>
+          <button class="btn-secondary" id="btn-swap">Swap <span style="font-family: var(--font-sans);">⇄</span></button>
+          <button class="btn-ghost" id="btn-clear">Clear</button>
+          <button class="btn-ghost" id="btn-sample" style="margin-left: auto;">Load sample</button>
+        </div>
+
+        <!-- Output area -->
+        <div class="tool-output-section" style="margin-top: var(--space-6);">
+          <div class="section-header">
+            <label class="section-label">DIFF RESULT</label>
+          </div>
+          <div class="output-panel" id="diff-output" style="background: var(--bg-secondary); border-radius: var(--radius-md); overflow-x: auto; min-height: 200px;">
+            <div style="color: var(--text-tertiary); text-align: center; padding: var(--space-8);">Enter text in both fields to see differences...</div>
+          </div>
+          <!-- Status bar -->
+          <div class="output-status" id="status" style="margin-top: var(--space-2); padding: var(--space-2); background: var(--bg-tertiary); border: 1px solid var(--border-default); border-radius: var(--radius-sm); display: flex; gap: var(--space-4); font-family: var(--font-mono); font-size: var(--text-sm);">
+             <!-- Stats populated by JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is an online Diff Checker?</h2>
+        <p>A diff checker online is a developer utility that compares two blocks of text or code side-by-side to highlight the exact differences between them. "Diff" is short for difference. It is an essential tool for programmers tracking code changes, writers revising drafts, or anyone trying to spot subtle modifications in long documents without manually reading every line.</p>
+
+        <h2>How to use the Diff Checker</h2>
+        <ol>
+          <li>Paste the original version of your text into the left "Original Text" input area.</li>
+          <li>Paste the updated or altered version into the right "Modified Text" input area.</li>
+          <li>Select the granularity of the comparison: "Character", "Word", or "Line" level.</li>
+          <li>Click the <strong>Compare Text →</strong> button. The unified diff result will appear below, highlighting additions in green and deletions in red.</li>
+        </ol>
+
+        <h2>Features</h2>
+        <ul>
+          <li>✓ 100% client-side — your code or private text never leaves the browser. Zero server uploads.</li>
+          <li>✓ No sign-up or account required. Free forever.</li>
+          <li>✓ <strong>Three comparison modes:</strong> Analyze changes down to the individual character, split by full words, or compare whole lines at a time.</li>
+          <li>✓ <strong>Unified View:</strong> See exactly what changed in a single, continuous flow. Red text indicates removals from the original; green text indicates additions in the modified version.</li>
+          <li>✓ Instantly swap the original and modified inputs with one click.</li>
+        </ul>
+
+        <h2>FAQ</h2>
+        <h3 style="margin-top: var(--space-6); font-size: var(--text-md);">Which diff mode should I use?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-top: var(--space-2);"><strong>Word mode</strong> is generally best for prose and standard code, as it groups changes logically. <strong>Line mode</strong> is much faster for comparing massive log files or long code bases where you only care which rows changed. <strong>Character mode</strong> provides the most granular detail, useful for finding single-letter typos or spelling corrections.</p>
+        
+        <h3 style="margin-top: var(--space-6); font-size: var(--text-md);">Is my data uploaded to a server?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-top: var(--space-2);">No. ZeroTools processes the text comparison entirely within your browser using JavaScript. No data is transmitted, ensuring absolute privacy for sensitive source code, API keys, or confidential documents.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/json-formatter" class="tool-card">
+            <div class="tool-icon">{}</div>
+            <div class="tool-name">JSON Formatter</div>
+            <div class="tool-desc">Beautify, minify, and validate JSON with syntax highlighting.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/word-counter" class="tool-card">
+            <div class="tool-icon">12</div>
+            <div class="tool-name">Word Counter</div>
+            <div class="tool-desc">Count words, characters, and reading time instantly.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/regex-tester" class="tool-card">
+            <div class="tool-icon">/.*/</div>
+            <div class="tool-name">Regex Tester</div>
+            <div class="tool-desc">Test and debug regular expressions with live highlighting.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/markdown-html" class="tool-card">
+            <div class="tool-icon">M↓</div>
+            <div class="tool-name">Markdown to HTML</div>
+            <div class="tool-desc">Convert Markdown to sanitized HTML instantly.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- Tool-specific CDN scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
+
+  <!-- Global JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <!-- Tool-specific JS -->
+  <script src="/js/tools/diff-checker.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Color Format Converter — ZeroTools</title>
+  <meta name="description" content="Instantly convert HEX, RGB, HSL, OKLCH, HSV, and CMYK color formats online. 100% free, offline, and secure developer utility.">
+  <meta name="keywords" content="hex to rgb converter, color converter online, hex to oklch, rgb to cmyk, color format tool">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/color-converter">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/color-converter">
+  <meta property="og:title" content="Color Format Converter — ZeroTools">
+  <meta property="og:description" content="Instantly convert HEX, RGB, HSL, OKLCH, HSV, and CMYK color formats online. Free and offline.">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools.dev/tools/color-converter">
+  <meta name="twitter:title" content="Color Format Converter — ZeroTools">
+  <meta name="twitter:description" content="Instantly convert HEX, RGB, HSL, OKLCH, HSV, and CMYK color formats offline.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Color Format Converter",
+    "description": "Convert colors between HEX, RGB, HSL, OKLCH, HSV, and CMYK formats. Includes live swatch preview and nearest named CSS color.",
+    "url": "https://zerotools.dev/tools/color-converter",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specific styles for Color Converter */
+    .converter-layout {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: var(--space-6);
+    }
+    
+    @media (max-width: 900px) {
+      .converter-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .swatch-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .color-swatch-display {
+      width: 100%;
+      height: 200px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      /* Checkerboard background for alpha transparency visibility */
+      background-image: 
+        linear-gradient(45deg, var(--bg-tertiary) 25%, transparent 25%, transparent 75%, var(--bg-tertiary) 75%, var(--bg-tertiary)),
+        linear-gradient(45deg, var(--bg-tertiary) 25%, transparent 25%, transparent 75%, var(--bg-tertiary) 75%, var(--bg-tertiary));
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .color-swatch-fill {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #00dc82; /* Default start */
+      transition: background-color 0.1s ease;
+    }
+
+    .main-input-wrapper {
+      position: relative;
+    }
+
+    .main-color-input {
+      font-size: var(--text-lg);
+      padding: var(--space-3) var(--space-4);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .alpha-control {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    
+    .alpha-slider {
+      flex: 1;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    /* Output Grid rows */
+    .formats-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .format-row {
+      display: flex;
+      align-items: stretch;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.15s ease;
+    }
+    
+    .format-row:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-dim);
+    }
+
+    .format-label-col {
+      width: 100px;
+      padding: var(--space-3);
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-default);
+      display: flex;
+      align-items: center;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .format-input-col {
+      flex: 1;
+      position: relative;
+    }
+    
+    .format-input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      padding: var(--space-3) var(--space-8) var(--space-3) var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      outline: none;
+      cursor: pointer; /* Suggests it can be clicked to activate */
+    }
+
+    .format-copy-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    
+    .format-copy-btn:hover {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+  </style>
+
+  <!-- === ADSENSE === -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- === GA4 === -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/color-picker">Color Picker</a>
+        <a href="/tools/css-minifier">CSS Minifier</a>
+        <a href="/tools/number-base-converter">Number Converter</a>
+        <a href="/tools/html-entity">HTML Entity</a>
+        <a href="/tools/svg-optimizer">SVG Optimizer</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#convert">Converters</a>
+        <span>/</span>
+        <span>Color Format Converter</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-convert">Converter</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">Color Format Converter</h1>
+        <p class="tool-intro">Instantly convert any valid CSS color string into HEX, RGB, HSL, OKLCH, HSV, and CMYK formats. Includes live swatch preview and named color matching.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <div class="converter-layout">
+          
+          <!-- LEFT: Controls & Swatch -->
+          <div class="swatch-panel">
+            <div class="section-header">
+              <label class="section-label">INPUT & PREVIEW</label>
+              <div class="input-actions">
+                <button class="btn-ghost" id="btn-random">Random</button>
+                <button class="btn-ghost" id="btn-clear">Clear</button>
+              </div>
+            </div>
+
+            <div class="main-input-wrapper">
+              <input type="text" id="main-color-input" class="input main-color-input" placeholder="#00DC82" autocomplete="off" spellcheck="false">
+              <div class="output-status" id="status" style="position: absolute; bottom: -24px; left: 0; padding: 0;"></div>
+            </div>
+
+            <div class="color-swatch-display">
+              <div class="color-swatch-fill" id="color-swatch"></div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2);">
+              <div style="display: flex; justify-content: space-between;">
+                <label class="section-label">Alpha (Opacity)</label>
+                <span id="alpha-value" style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary);">100%</span>
+              </div>
+              <div class="alpha-control">
+                <input type="range" id="alpha-slider" class="alpha-slider" min="0" max="100" value="100">
+              </div>
+            </div>
+
+            <div style="margin-top: auto; padding-top: var(--space-4); border-top: 1px solid var(--border-default);">
+              <label class="section-label" style="display: block; margin-bottom: 4px;">Named CSS Match</label>
+              <div id="named-color-match" style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-primary);">-</div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Output Formats -->
+          <div class="formats-panel">
+            <div class="section-header" style="margin-bottom: var(--space-2);">
+              <label class="section-label">FORMATS (CLICK TO ACTIVATE)</label>
+            </div>
+
+            <div class="format-row">
+              <div class="format-label-col">HEX</div>
+              <div class="format-input-col">
+                <input type="text" class="format-input" id="out-hex" readonly placeholder="-">
+                <button class="format-copy-btn" id="btn-copy-hex" title="Copy HEX">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="format-row">
+              <div class="format-label-col">RGB</div>
+              <div class="format-input-col">
+                <input type="text" class="format-input" id="out-rgb" readonly placeholder="-">
+                <button class="format-copy-btn" id="btn-copy-rgb" title="Copy RGB">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="format-row">
+              <div class="format-label-col">RGBA</div>
+              <div class="format-input-col">
+                <input type="text" class="format-input" id="out-rgba" readonly placeholder="-">
+                <button class="format-copy-btn" id="btn-copy-rgba" title="Copy RGBA">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="format-row">
+              <div class="format-label-col">HSL</div>
+              <div class="format-input-col">
+                <input type="text" class="format-input" id="out-hsl" readonly placeholder="-">
+                <button class="format-copy-btn" id="btn-copy-hsl" title="Copy HSL">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="format-row">
+              <div class="format-label-col" style="color: var(--accent);">OKLCH</div>
+              <div class="format-input-col">
+                <input type="text" class="format-input" id="out-oklch" readonly placeholder="-" style="color: var(--accent);">
+                <button class="format-copy-btn" id="btn-copy-oklch" title="Copy OKLCH">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="format-row">
+              <div class="format-label-col">HSV</div>
+              <div class="format-input-col">
+                <input type="text" class="format-input" id="out-hsv" readonly placeholder="-">
+                <button class="format-copy-btn" id="btn-copy-hsv" title="Copy HSV">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="format-row">
+              <div class="format-label-col">CMYK</div>
+              <div class="format-input-col">
+                <input type="text" class="format-input" id="out-cmyk" readonly placeholder="-">
+                <button class="format-copy-btn" id="btn-copy-cmyk" title="Copy CMYK">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Color Format Converter?</h2>
+        <p>A <strong>Color Format Converter</strong> translates color values between different mathematical models used in web development and graphic design. Modern CSS supports multiple ways to declare colors. While standard `HEX` (#FFFFFF) and `RGB` (255, 255, 255) map directly to how computer monitors emit red, green, and blue light, other models exist to make human manipulation easier.</p>
+        <p>`HSL` (Hue, Saturation, Lightness) is great for building palettes by tweaking brightness without changing the core color. `OKLCH`, newly adopted in modern CSS, is a perceptually uniform color space that prevents the "muddy" shifts in lightness that happen when transitioning colors in sRGB space. `CMYK` is the standard for physical print.</p>
+
+        <h2>How to use the Converter</h2>
+        <ol>
+          <li><strong>Input:</strong> Type or paste any valid color format into the main input box. The tool automatically detects whether it's a HEX code, an `rgb()` function, or a standard CSS named color (like "dodgerblue").</li>
+          <li><strong>Alpha Slider:</strong> Adjust the opacity of the color using the slider. Notice how this affects the generated `RGBA` output.</li>
+          <li><strong>Instant Translation:</strong> Look at the right panel to see your color mathematically converted into all other standard formats instantly.</li>
+          <li><strong>Reverse Input:</strong> Click on any output field (e.g., the HSL row) to instantly set that specific string as your main input.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your data and conversions never hit a server.</li>
+          <li>✓ No sign-up or account required.</li>
+          <li>✓ <strong>Auto-Detection:</strong> No need to specify what you are typing; the engine parses common CSS syntax natively.</li>
+          <li>✓ <strong>Modern Standards:</strong> Fully supports the new `oklch()` format for modern web design.</li>
+          <li>✓ <strong>Named Color Matching:</strong> Automatically compares your hex code against a dictionary of 140+ CSS named colors to find the exact or closest visual match.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why should I use OKLCH over HEX or RGB?</h3>
+        <p>OKLCH is perceptually uniform. If you have two colors in RGB and reduce their "lightness" mathematically by 10%, one color might look drastically darker than the other to the human eye. In OKLCH, a 10% shift in lightness is visually identical across all hues, making it the superior format for generating predictable design system palettes.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Is the CMYK conversion exact?</h3>
+        <p>Converting screen colors (RGB) to print colors (CMYK) in a browser is an approximation. Monitors use additive light, while printers use subtractive ink. True CMYK conversions require specific ICC color profiles calibrated to the physical printer. Our output provides a standard mathematical baseline.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What happens if I type an invalid color?</h3>
+        <p>The status indicator under the main input box will flash a red error, and the output fields will remain frozen on the last valid color until the syntax is corrected.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/color-picker" class="tool-card">
+            <div class="tool-icon">🎨</div>
+            <div class="tool-name">Color Picker</div>
+            <div class="tool-desc">Select colors visually and check WCAG contrast.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/number-base-converter" class="tool-card">
+            <div class="tool-icon">10</div>
+            <div class="tool-name">Number Converter</div>
+            <div class="tool-desc">Convert HEX to Decimal and Binary formats.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/css-minifier" class="tool-card">
+            <div class="tool-icon">{ }</div>
+            <div class="tool-name">CSS Minifier</div>
+            <div class="tool-desc">Compress entire stylesheets instantly offline.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/svg-optimizer" class="tool-card">
+            <div class="tool-icon">SVG</div>
+            <div class="tool-name">SVG Optimizer</div>
+            <div class="tool-desc">Clean up SVG markup before embedding in CSS.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/color-converter.js"></script>
+
+</body>
+</html>

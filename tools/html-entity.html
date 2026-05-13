@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>HTML Entity Encoder & Decoder — ZeroTools</title>
+  <meta name="description" content="Safely encode and decode HTML entities instantly online. Supports named, decimal, and hex formats. 100% free and client-side processing.">
+  <meta name="keywords" content="html encode online, html decode, html entity converter, escape html, unescape html">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/html-entity">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/html-entity">
+  <meta property="og:title" content="HTML Entity Encoder & Decoder — ZeroTools">
+  <meta property="og:description" content="Safely encode and decode HTML entities instantly online. 100% offline and secure.">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools.dev/tools/html-entity">
+  <meta name="twitter:title" content="HTML Entity Encoder & Decoder — ZeroTools">
+  <meta name="twitter:description" content="Safely encode and decode HTML entities offline.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "HTML Entity Encoder & Decoder",
+    "description": "Encode and decode HTML entities safely. Prevent XSS by escaping HTML characters into safe named, decimal, or hex entities.",
+    "url": "https://zerotools.dev/tools/html-entity",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Tool specific layout overrides */
+    .mode-toggle-group {
+      display: flex;
+      gap: 2px;
+      background: var(--bg-primary);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-4);
+      width: fit-content;
+    }
+    .mode-toggle-group button {
+      padding: 8px 24px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+    
+    .reference-table-wrapper {
+      margin-top: var(--space-8);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .reference-table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-elevated);
+    }
+    .reference-search {
+      width: 250px;
+      padding: 6px 12px;
+      font-size: var(--text-sm);
+    }
+    table.entity-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    table.entity-table th {
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-default);
+    }
+    /* Add hover effect to rows since columns are clickable */
+    #entity-table-body tr:hover {
+      background: var(--bg-primary);
+    }
+    /* Truncate long hex/dec blocks gracefully */
+    .text-output-display {
+       font-family: var(--font-mono); 
+       font-size: var(--text-sm); 
+       color: var(--text-primary); 
+       white-space: pre-wrap; 
+       word-break: break-all;
+    }
+  </style>
+
+  <!-- === ADSENSE === -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- === GA4 === -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/url-encoder">URL Encoder</a>
+        <a href="/tools/base64">Base64 Encoder</a>
+        <a href="/tools/markdown-html">Markdown to HTML</a>
+        <a href="/tools/css-minifier">CSS Minifier</a>
+        <a href="/tools/meta-tag-generator">Meta Tag Gen</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#encode">Encoders</a>
+        <span>/</span>
+        <span>HTML Entity</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-encode">Encoder</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">HTML Entity Encoder & Decoder</h1>
+        <p class="tool-intro">Safely escape HTML characters to prevent XSS attacks, or decode raw entities back into readable text. Instantly process named, decimal, and hexadecimal entities.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <div class="mode-toggle-group">
+          <button class="btn-secondary active" id="mode-encode">Encode</button>
+          <button class="btn-ghost" id="mode-decode">Decode</button>
+        </div>
+
+        <!-- Input area -->
+        <div class="tool-input-section">
+          <div class="section-header">
+            <label class="section-label">INPUT</label>
+            <div class="input-actions">
+              <button class="btn-ghost" id="btn-paste">Paste</button>
+              <button class="btn-ghost" id="btn-clear">Clear</button>
+              <button class="btn-ghost" id="btn-sample">Load sample</button>
+            </div>
+          </div>
+          <textarea class="textarea" id="text-input" placeholder="Paste HTML string or text here..."></textarea>
+        </div>
+
+        <!-- Options row -->
+        <div class="tool-options" id="encode-options" style="margin-top: var(--space-4); display: flex; gap: var(--space-5); align-items: center; padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-subtle); transition: opacity 0.2s;">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Entity Format:</span>
+          
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-named" checked style="accent-color: var(--accent);"> Named (&amp;lt;)
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-decimal" style="accent-color: var(--accent);"> Decimal (&amp;#60;)
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-hex" style="accent-color: var(--accent);"> Hex (&amp;#x3C;)
+          </label>
+          
+          <span style="margin-left: auto; font-size: var(--text-xs); color: var(--text-tertiary); max-width: 200px; line-height: 1.4;">Formats control how non-ASCII and special chars are converted.</span>
+        </div>
+
+        <!-- Output area -->
+        <div class="tool-output-section" style="margin-top: var(--space-6);">
+          <div class="section-header">
+            <label class="section-label">OUTPUT</label>
+            <div class="output-actions">
+              <button class="btn-ghost" id="btn-copy">Copy Output</button>
+            </div>
+          </div>
+          <div class="output-panel">
+            <div id="text-output" class="text-output-display"></div>
+          </div>
+          <!-- Status bar -->
+          <div class="output-status" id="status" style="margin-top: var(--space-2);"></div>
+        </div>
+
+        <!-- Entity Reference Table -->
+        <div class="reference-table-wrapper">
+          <div class="reference-table-header">
+            <h3 style="font-family: var(--font-sans); font-size: var(--text-md); font-weight: 500; margin: 0; color: var(--text-primary);">Entity Reference Guide</h3>
+            <input type="text" id="search-entities" class="input reference-search" placeholder="Search symbol or code...">
+          </div>
+          <div style="max-height: 400px; overflow-y: auto;">
+            <table class="entity-table">
+              <thead style="position: sticky; top: 0; background: var(--bg-elevated); z-index: 10;">
+                <tr>
+                  <th style="width: 60px; text-align: center;">Char</th>
+                  <th>Named</th>
+                  <th>Decimal</th>
+                  <th>Hexadecimal</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody id="entity-table-body">
+                <!-- JS Populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is HTML Entity Encoding?</h2>
+        <p>In HTML, certain characters are reserved for the language's syntax. For example, the less-than sign (<code>&lt;</code>) and greater-than sign (<code>&gt;</code>) are used to create tags. If you want to display these characters as text on a web page without the browser trying to interpret them as code, you must convert them into <strong>HTML Entities</strong>.</p>
+        <p>An HTML entity is a string of text that begins with an ampersand (<code>&amp;</code>) and ends with a semicolon (<code>;</code>). The most common entities are named (like <code>&amp;amp;</code> for <code>&amp;</code>), but characters can also be represented by their decimal or hexadecimal unicode numbers.</p>
+
+        <h2>How to use the Entity Converter</h2>
+        <ol>
+          <li><strong>Select Mode:</strong> Choose "Encode" to convert raw text/code into safe HTML entities. Choose "Decode" to convert entities back into readable text.</li>
+          <li><strong>Input Text:</strong> Paste your payload into the input box. The conversion happens instantaneously as you type.</li>
+          <li><strong>Choose Format (Encoding):</strong> When encoding, you can force the output to use Named, Decimal, or Hex formats. If Named is selected but a character has no standard name, it defaults to the raw character or decimal format.</li>
+          <li><strong>Copy Output:</strong> Use the "Copy Output" button to grab the safe string for your application.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your strings are parsed offline ensuring absolute data privacy.</li>
+          <li>✓ <strong>Live Bidirectional Sync:</strong> Switch between encode and decode modes instantly without losing data.</li>
+          <li>✓ <strong>Multi-Format Support:</strong> Handles traditional named entities (<code>&amp;copy;</code>) alongside standard Unicode decimal (<code>&amp;#169;</code>) and hex (<code>&amp;#xA9;</code>) codes.</li>
+          <li>✓ <strong>Security Focused:</strong> Crucial tool for escaping user input to prevent Cross-Site Scripting (XSS) injection attacks before saving to a database.</li>
+          <li>✓ <strong>Interactive Cheat Sheet:</strong> Includes a searchable reference table of the 50 most common HTML entities. Click any code in the table to instantly copy it.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why is HTML encoding important for security?</h3>
+        <p>If you build an application that accepts user input (like a comment section) and you render that input on the page without encoding it, an attacker can input <code>&lt;script&gt;maliciousCode()&lt;/script&gt;</code>. The browser will execute that script. By encoding the input, the string becomes <code>&amp;lt;script&amp;gt;maliciousCode()&amp;lt;/script&amp;gt;</code>, which the browser renders safely as plain text instead of executing it.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What's the difference between URL Encoding and HTML Encoding?</h3>
+        <p>They serve different purposes in web development. URL Encoding (percent-encoding, like <code>%20</code> for a space) ensures that data passed through a web address is transmitted correctly over HTTP. HTML Encoding ensures that data rendered inside an HTML document is displayed as text rather than parsed as DOM elements.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Should I use Named, Decimal, or Hex entities?</h3>
+        <p>Named entities are easier for humans to read while coding (e.g., <code>&amp;euro;</code>). However, not all unicode characters have a named entity. Decimal and Hexadecimal entities cover the entire Unicode spectrum, making them universally compatible across all modern browsers for rendering special symbols and foreign characters.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/url-encoder" class="tool-card">
+            <div class="tool-icon">%20</div>
+            <div class="tool-name">URL Encoder</div>
+            <div class="tool-desc">Encode or decode URLs and query strings safely.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/base64" class="tool-card">
+            <div class="tool-icon">64</div>
+            <div class="tool-name">Base64 Encoder</div>
+            <div class="tool-desc">Encode plain text or files into Base64 format.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/markdown-html" class="tool-card">
+            <div class="tool-icon">M↓</div>
+            <div class="tool-name">Markdown to HTML</div>
+            <div class="tool-desc">Convert and sanitize Markdown to raw HTML code.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/meta-tag-generator" class="tool-card">
+            <div class="tool-icon">&lt;&gt;</div>
+            <div class="tool-name">Meta Tag Gen</div>
+            <div class="tool-desc">Generate secure HTML header meta tags.</div>
+            <div class="tool-tag">Web</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <!-- DOMPurify is not explicitly requested in CDN block for this tool in spec, but helps for raw decoding safety -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/html-entity.js"></script>
+
+</body>
+</html>

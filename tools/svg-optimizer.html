@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>SVG Optimizer & Minifier — ZeroTools</title>
+  <meta name="description" content="Free online SVG optimizer. Clean, minify, and compress raw SVG paths to reduce file size instantly in your browser. 100% client-side privacy.">
+  <meta name="keywords" content="svg optimizer online, minify svg, compress svg, clean svg code, client-side svg minifier">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/svg-optimizer">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SVG Optimizer & Minifier — ZeroTools">
+  <meta property="og:description" content="Clean and compress raw SVG code to save space. Shrink vector file sizes effortlessly without losing visual quality. 100% offline.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/svg-optimizer">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SVG Optimizer & Minifier — ZeroTools">
+  <meta name="twitter:description" content="Clean and compress raw SVG code to save space. Shrink vector file sizes effortlessly without losing visual quality.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta name="twitter:creator" content="@dippanbhusal">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Structured Data — Tool page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SVG Optimizer",
+    "description": "Free online SVG optimizer. Clean, minify, and compress raw SVG paths to reduce file size instantly.",
+    "url": "https://zerotools.dev/tools/svg-optimizer",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { "@type": "Person", "name": "Dippan Bhusal", "url": "https://github.com/kdippan" }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Tool-specific overrides */
+    .io-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+    @media (max-width: 900px) {
+      .io-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .io-panel {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      height: 600px;
+    }
+
+    .io-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-elevated);
+      flex-shrink: 0;
+    }
+
+    .io-textarea {
+      flex: 1;
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      padding: var(--space-4);
+      resize: none;
+      outline: none;
+      line-height: 1.6;
+    }
+    .io-textarea:focus {
+      box-shadow: inset 0 0 0 2px var(--accent-dim);
+    }
+
+    .preview-container {
+      height: 200px;
+      flex-shrink: 0;
+      background-color: var(--bg-tertiary);
+      background-image: 
+        linear-gradient(45deg, var(--bg-secondary) 25%, transparent 25%, transparent 75%, var(--bg-secondary) 75%, var(--bg-secondary)),
+        linear-gradient(45deg, var(--bg-secondary) 25%, transparent 25%, transparent 75%, var(--bg-secondary) 75%, var(--bg-secondary));
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+    }
+
+    .svg-preview-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .svg-preview-wrapper svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .preview-label {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-secondary);
+      background: var(--bg-primary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+      pointer-events: none;
+    }
+  </style>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/css-minifier">CSS Minifier</a>
+        <a href="/tools/image-base64">Image to Base64</a>
+        <a href="/tools/color-picker">Color Picker</a>
+        <a href="/tools/diff-checker">Diff Checker</a>
+        <a href="/tools/json-formatter">JSON Formatter</a>
+      </nav>
+      <!-- Sidebar ad unit -->
+      <div class="ad-container sidebar-ad">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#formatters">Formatters</a>
+        <span>/</span>
+        <span>SVG Optimizer</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-format">Formatter</span>
+          <span class="tool-privacy-badge">🔒 Client-side only</span>
+        </div>
+        <h1 class="tool-title">SVG Optimizer & Minifier</h1>
+        <p class="tool-intro">Clean and compress your raw SVG code by safely removing metadata, comments, and redundant whitespace to reduce file size instantly.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div id="tool">
+
+        <!-- Options Configuration -->
+        <div class="tool-options" style="display: flex; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4); padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-comments" checked style="accent-color: var(--accent);"> Remove Comments
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-metadata" checked style="accent-color: var(--accent);"> Remove Metadata
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-emptyattrs" checked style="accent-color: var(--accent);"> Remove Empty Attrs
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-roundnumbers" checked style="accent-color: var(--accent);"> Round Numbers
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-whitespace" checked style="accent-color: var(--accent);"> Collapse Whitespace
+          </label>
+        </div>
+
+        <div class="io-grid">
+          
+          <!-- Input Side -->
+          <div class="tool-input-section io-panel">
+            <div class="io-header">
+              <label class="section-label">ORIGINAL SVG</label>
+              <div class="input-actions" style="display: flex; gap: 8px;">
+                <button class="btn-ghost" id="btn-paste">Paste</button>
+                <button class="btn-ghost" id="btn-clear">Clear</button>
+                <button class="btn-ghost" id="btn-sample">Sample</button>
+              </div>
+            </div>
+            <textarea id="svg-input" class="io-textarea" placeholder="Paste your raw SVG code or drag & drop an .svg file here..." spellcheck="false"></textarea>
+            <div class="preview-container">
+              <span class="preview-label">Live Preview</span>
+              <div id="svg-before" class="svg-preview-wrapper"></div>
+            </div>
+          </div>
+
+          <!-- Output Side -->
+          <div class="tool-output-section io-panel">
+            <div class="io-header">
+              <label class="section-label">OPTIMIZED SVG</label>
+              <div class="output-actions" style="display: flex; gap: 8px;">
+                <button class="btn-ghost" id="btn-copy">Copy Code</button>
+                <button class="btn-ghost" id="btn-download">Download .svg</button>
+              </div>
+            </div>
+            <textarea id="svg-output" class="io-textarea" readonly placeholder="Optimized code will appear here..." spellcheck="false" style="background: var(--bg-primary);"></textarea>
+            <div class="preview-container">
+              <span class="preview-label">Render Check</span>
+              <div id="svg-after" class="svg-preview-wrapper"></div>
+            </div>
+            <!-- Status bar inside right panel -->
+            <div class="output-status" id="status" style="padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border-default); background: var(--bg-elevated); margin: 0; display: flex; align-items: center; font-family: var(--font-mono); font-size: var(--text-sm);">
+               <!-- Stats populated by JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hidden logical action button just to map to script requirements -->
+        <button class="btn-primary" id="btn-run" style="display: none;">Optimize</button>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is an SVG Optimizer?</h2>
+        <p>SVG stands for Scalable Vector Graphics, an XML-based markup language used for describing two-dimensional vector images. Unlike raster images (such as JPEGs or PNGs), SVGs are inherently resolution-independent and perfectly crisp at any scale. However, vector graphics generated by design software like Adobe Illustrator, Figma, or Sketch often contain an enormous amount of unnecessary information.</p>
+        <p>This bloat includes proprietary metadata, editor-specific namespaces, hidden layers, extensive comments, and overly precise coordinates (e.g., <code>45.1234567</code> instead of <code>45.12</code>). An SVG Optimizer is a specialized utility that parses this XML structure and surgically removes the junk data while preserving the exact visual rendering of the graphic. This process significantly reduces the byte size of the file, leading to faster download times, reduced bandwidth consumption, and improved overall website performance metrics like Largest Contentful Paint (LCP).</p>
+
+        <h2>How to use the SVG Optimizer</h2>
+        <ol>
+          <li>Paste the raw XML code of your SVG into the left input panel, or drag and drop an <code>.svg</code> file directly into the editor space.</li>
+          <li>Adjust the optimization toggles at the top. For maximum compression, leave all options checked (Remove Comments, Metadata, Empty Attributes, Round Numbers, and Collapse Whitespace).</li>
+          <li>Observe the live preview below the code editor to ensure the visual integrity of your vector graphic remains intact.</li>
+          <li>Check the status bar in the bottom right to see your total byte savings and compression percentage.</li>
+          <li>Click "Copy Code" to grab the minified string, or "Download .svg" to save the optimized file directly to your computer.</li>
+        </ol>
+
+        <h2>Features</h2>
+        <ul>
+          <li>✓ 100% client-side — your proprietary vectors and icons never leave your browser.</li>
+          <li>✓ No sign-up, tracking, or artificial file size limits.</li>
+          <li>✓ Intelligent path coordinate rounding to safely reduce sub-pixel bloat.</li>
+          <li>✓ Strips proprietary Adobe Illustrator and Sketch metadata tags automatically.</li>
+          <li>✓ Live visual side-by-side preview to verify rendering accuracy instantly.</li>
+          <li>✓ Instant export to clipboard or direct file download.</li>
+        </ul>
+
+        <h2>FAQ</h2>
+        
+        <h3 style="margin-top: var(--space-6); font-size: var(--text-md);">Will rounding numbers break my SVG?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-top: var(--space-2);">In 99% of web use cases, no. Design tools often export coordinates with 6 or more decimal places of precision, which is indistinguishable to the human eye on a screen. Rounding to 2 decimal places drastically reduces file size while maintaining visual perfection. Always check the visual preview to confirm.</p>
+        
+        <h3 style="margin-top: var(--space-6); font-size: var(--text-md);">Can I optimize animations or interactive SVGs?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-top: var(--space-2);">Yes, but proceed with caution. If your SVG contains custom JavaScript or relies on specific IDs/classes for complex CSS animations, ensure that removing empty attributes or stripping whitespaces does not accidentally remove necessary structural hooks. Test the output thoroughly.</p>
+
+        <h3 style="margin-top: var(--space-6); font-size: var(--text-md);">Why should I minify SVG code instead of just using Gzip?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-top: var(--space-2);">While server-side compression (like gzip or Brotli) is excellent at shrinking text during transmission, minification removes the structural bloat completely. Combining minification with server-level compression yields the absolute smallest possible payload, ensuring lightning-fast web load times.</p>
+        
+        <h3 style="margin-top: var(--space-6); font-size: var(--text-md);">Is my design data safe?</h3>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-top: var(--space-2);">Absolutely. ZeroTools is built strictly on privacy-first client-side architecture. The regex parsing and optimizations happen exclusively inside your computer's RAM. We never transmit, store, or intercept the graphics you upload or paste here.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/css-minifier" class="tool-card">
+            <div class="tool-icon">{ }</div>
+            <div class="tool-name">CSS Minifier</div>
+            <div class="tool-desc">Compress and format CSS code instantly offline.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/image-base64" class="tool-card">
+            <div class="tool-icon">🖼️</div>
+            <div class="tool-name">Image to Base64</div>
+            <div class="tool-desc">Convert SVGs and PNGs to inline data URIs.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/color-picker" class="tool-card">
+            <div class="tool-icon">🎨</div>
+            <div class="tool-name">Color Picker</div>
+            <div class="tool-desc">Convert HEX to OKLCH and check contrast ratios.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/diff-checker" class="tool-card">
+            <div class="tool-icon">±</div>
+            <div class="tool-name">Diff Checker</div>
+            <div class="tool-desc">Compare two code blocks to highlight text changes.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- Global JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <!-- Tool-specific JS -->
+  <script src="/js/tools/svg-optimizer.js"></script>
+
+</body>
+</html>

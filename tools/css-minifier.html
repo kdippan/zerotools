@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>CSS Minifier & Beautifier — ZeroTools</title>
+  <meta name="description" content="Free online CSS minifier and formatter. Compress your stylesheets to save bandwidth or beautify messy CSS code instantly in your browser.">
+  <meta name="keywords" content="css minifier online, css beautifier, css formatter, compress css online, offline css tools">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/css-minifier">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/css-minifier">
+  <meta property="og:title" content="CSS Minifier & Beautifier — ZeroTools">
+  <meta property="og:description" content="Compress your stylesheets to save bandwidth or beautify messy CSS code instantly. 100% offline and secure.">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools.dev/tools/css-minifier">
+  <meta name="twitter:title" content="CSS Minifier & Beautifier — ZeroTools">
+  <meta name="twitter:description" content="Compress your stylesheets to save bandwidth or beautify messy CSS code instantly. 100% offline.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "CSS Minifier & Beautifier",
+    "description": "Free online CSS minifier and formatter. Compress your stylesheets to save bandwidth or beautify messy CSS code instantly.",
+    "url": "https://zerotools.dev/tools/css-minifier",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specific styles for CSS Minifier Tool */
+    .mode-toggle-group {
+      display: flex;
+      gap: 2px;
+      background: var(--bg-primary);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-4);
+      width: fit-content;
+    }
+    .mode-toggle-group button {
+      padding: 8px 24px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+    
+    .io-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      height: 450px;
+    }
+    @media (max-width: 900px) {
+      .io-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .io-panel {
+        min-height: 300px;
+      }
+    }
+
+    .io-panel {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .io-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-elevated);
+    }
+
+    .io-textarea {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      padding: var(--space-4);
+      resize: none;
+      outline: none;
+      line-height: 1.6;
+    }
+    .io-textarea:focus {
+      box-shadow: inset 0 0 0 2px var(--accent-dim);
+    }
+  </style>
+
+  <!-- === ADSENSE === -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- === GA4 === -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/json-formatter">JSON Formatter</a>
+        <a href="/tools/svg-optimizer">SVG Optimizer</a>
+        <a href="/tools/html-entity">HTML Entity Encoder</a>
+        <a href="/tools/color-picker">Color Picker</a>
+        <a href="/tools/diff-checker">Diff Checker</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main" style="max-width: 100%;">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#formatters">Formatters</a>
+        <span>/</span>
+        <span>CSS Minifier</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-format">Formatter</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">CSS Minifier & Beautifier</h1>
+        <p class="tool-intro">Compress CSS code to reduce file size and improve page load speeds, or reverse minified code back into a readable, formatted structure instantly.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div id="tool">
+
+        <div class="mode-toggle-group">
+          <button class="btn-secondary active" id="mode-minify">Minify</button>
+          <button class="btn-ghost" id="mode-beautify">Beautify</button>
+        </div>
+
+        <div class="io-grid">
+          
+          <!-- Input -->
+          <div class="io-panel">
+            <div class="io-header">
+              <label class="section-label">INPUT CSS</label>
+              <div class="input-actions" style="display: flex; gap: 8px;">
+                <button class="btn-ghost" id="btn-paste">Paste</button>
+                <button class="btn-ghost" id="btn-clear">Clear</button>
+                <button class="btn-ghost" id="btn-sample">Sample</button>
+              </div>
+            </div>
+            <textarea class="io-textarea" id="css-input" placeholder="Paste your CSS here..." spellcheck="false"></textarea>
+          </div>
+
+          <!-- Output -->
+          <div class="io-panel">
+            <div class="io-header">
+              <label class="section-label">OUTPUT CSS</label>
+              <div class="output-actions" style="display: flex; gap: 8px;">
+                <button class="btn-ghost" id="btn-copy">Copy</button>
+                <button class="btn-ghost" id="btn-download">Download</button>
+              </div>
+            </div>
+            <textarea class="io-textarea" id="css-output" readonly placeholder="Output will appear here..." spellcheck="false" style="background: var(--bg-primary);"></textarea>
+            
+            <!-- Status bar -->
+            <div class="output-status" id="status" style="padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border-default); background: var(--bg-elevated); margin: 0; display: flex; align-items: center;">
+               <!-- Populated by JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a CSS Minifier?</h2>
+        <p>A <strong>CSS minifier online</strong> is a developer utility that removes all unnecessary characters from source code without changing its functionality. When writing CSS, developers use whitespace, indentation, and comments to make the code readable and maintainable. However, web browsers don't need any of this formatting to parse and apply the styles.</p>
+        <p>Minification strips out these spaces, line breaks, and comments, and performs safe optimizations like changing <code>0px</code> to <code>0</code> or removing the final trailing semicolon in a block. This results in a much smaller file payload that downloads and parses faster, improving your website's overall performance and Lighthouse scores.</p>
+
+        <h2>How to use the CSS Formatter</h2>
+        <ol>
+          <li><strong>Select Mode:</strong> Choose "Minify" if you want to compress code for production, or "Beautify" if you have a minified file and need to make it readable again.</li>
+          <li><strong>Input Code:</strong> Paste your raw CSS into the left panel. The tool will process it instantly as you type.</li>
+          <li><strong>Review Savings:</strong> In Minify mode, look at the status bar below the right panel to see exactly how many bytes you saved.</li>
+          <li><strong>Export:</strong> Click "Copy" to send the output to your clipboard, or "Download" to save it directly to your machine as a <code>.min.css</code> or <code>.css</code> file.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your unreleased designs and proprietary styles never leave your browser.</li>
+          <li>✓ <strong>Live Bidirectional Sync:</strong> Toggle between Minify and Beautify instantly.</li>
+          <li>✓ <strong>Smart Optimizations:</strong> Removes comments, collapses whitespace, removes redundant zeros, and strips trailing semicolons safely.</li>
+          <li>✓ <strong>Syntax Detection:</strong> Basic detection warns you if you have unmatched braces (<code>{</code> or <code>}</code>) in your code.</li>
+          <li>✓ State saving ensures your code remains in the editor even if you accidentally refresh the page.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Is this a replacement for Webpack or PostCSS?</h3>
+        <p>No. If you are building a large application, you should integrate minification into your build pipeline (using tools like `cssnano` or `esbuild`). This online tool is designed for quick, one-off tasks, fixing legacy files, optimizing snippets for email templates, or when you are working in environments without a build step.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Will minification break my CSS?</h3>
+        <p>Our tool uses safe, standard regex patterns to compress the code. It will not alter selector names, change the cascade order, or modify CSS custom properties. However, if your source CSS contains severe syntax errors (like missing closing brackets), the minifier may produce unexpected results. Always ensure your source code is valid before minifying.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Can it perfectly restore minified CSS?</h3>
+        <p>The "Beautify" mode will restore structural indentation and line breaks, making the code readable again. However, any comments or formatting quirks that were stripped out during the initial minification process are gone forever and cannot be restored.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/json-formatter" class="tool-card">
+            <div class="tool-icon">{}</div>
+            <div class="tool-name">JSON Formatter</div>
+            <div class="tool-desc">Beautify, minify, and validate JSON payloads.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/svg-optimizer" class="tool-card">
+            <div class="tool-icon">SVG</div>
+            <div class="tool-name">SVG Optimizer</div>
+            <div class="tool-desc">Clean and compress raw SVG code to save space.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/color-picker" class="tool-card">
+            <div class="tool-icon">🎨</div>
+            <div class="tool-name">Color Picker</div>
+            <div class="tool-desc">Convert HEX to OKLCH and check CSS contrast.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/diff-checker" class="tool-card">
+            <div class="tool-icon">±</div>
+            <div class="tool-name">Diff Checker</div>
+            <div class="tool-desc">Compare original and modified text side-by-side.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/css-minifier.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Markdown to HTML Converter — ZeroTools</title>
+  <meta name="description" content="Convert Markdown to raw HTML online instantly. Features live preview, DOMPurify sanitization, and GFM support. 100% free and client-side.">
+  <meta name="keywords" content="markdown to html converter, md to html, markdown viewer, github flavored markdown, raw html generator, offline markdown tool">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools-io.vercel.app/tools/markdown-html">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools-io.vercel.app/tools/markdown-html">
+  <meta property="og:title" content="Markdown to HTML Converter — ZeroTools">
+  <meta property="og:description" content="Real-time Markdown to HTML converter. See your rendered preview instantly with secure, offline processing.">
+  <meta property="og:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools-io.vercel.app/tools/markdown-html">
+  <meta name="twitter:title" content="Markdown to HTML Converter — ZeroTools">
+  <meta name="twitter:description" content="Real-time Markdown to HTML converter. Offline and secure processing.">
+  <meta name="twitter:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Markdown to HTML Converter",
+    "description": "Convert Markdown to raw HTML online instantly. Features live preview and GitHub Flavored Markdown support.",
+    "url": "https://zerotools-io.vercel.app/tools/markdown-html",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specialized Split-View Layout for Markdown Editor */
+    .md-workspace {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      height: 600px;
+    }
+    
+    @media (min-width: 992px) {
+      .md-workspace {
+        flex-direction: row;
+        height: 700px; /* Taller on desktop */
+      }
+    }
+
+    .md-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      min-width: 0; /* Prevents flex flexbox blowout */
+    }
+
+    .md-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-2) var(--space-4);
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .md-textarea {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      resize: none;
+      padding: var(--space-4);
+      background: transparent;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      outline: none;
+    }
+    .md-textarea:focus {
+      box-shadow: inset 0 0 0 1px var(--accent); /* Inner focus ring */
+    }
+
+    .md-preview-area {
+      flex: 1;
+      overflow-y: auto;
+      background: transparent;
+      position: relative;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--bg-primary);
+      padding: 2px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border-bottom: 2px solid transparent;
+    }
+    .view-btn:hover {
+      color: var(--text-primary);
+    }
+    .view-btn.active {
+      background: var(--bg-elevated);
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px var(--space-4);
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-default);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .options-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding: var(--space-3) 0;
+      align-items: center;
+    }
+    
+    .opt-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .opt-label:hover { color: var(--text-primary); }
+    .opt-label input { accent-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/word-counter">Word Counter</a>
+        <a href="/tools/diff-checker">Diff Checker</a>
+        <a href="/tools/html-entity">HTML Entity</a>
+        <a href="/tools/lorem-ipsum">Lorem Ipsum</a>
+        <a href="/tools/json-formatter">JSON Formatter</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main" style="max-width: 100%;"> <!-- Expanded width for editor -->
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#formatters">Formatters</a>
+        <span>/</span>
+        <span>Markdown to HTML</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-format">Formatter</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">Markdown to HTML Converter</h1>
+        <p class="tool-intro">Write Markdown and preview the rendered HTML side-by-side in real-time. Export raw HTML code instantly. Supports GitHub Flavored Markdown (GFM).</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div id="tool">
+
+        <div class="options-bar">
+          <label class="opt-label" title="Enable GitHub Flavored Markdown (tables, strikethrough, task lists)">
+            <input type="checkbox" id="opt-gfm" checked> GFM Enabled
+          </label>
+          <label class="opt-label" title="Enable single line breaks">
+            <input type="checkbox" id="opt-breaks" checked> Line Breaks
+          </label>
+          <label class="opt-label" title="Sanitize HTML output using DOMPurify to prevent XSS">
+            <input type="checkbox" id="opt-sanitize" checked> Sanitize Output
+          </label>
+        </div>
+
+        <div class="md-workspace">
+          
+          <!-- Editor Panel -->
+          <div class="md-panel">
+            <div class="md-panel-header">
+              <label class="section-label">MARKDOWN INPUT</label>
+              <div class="input-actions">
+                <button class="btn-ghost" id="btn-paste">Paste</button>
+                <button class="btn-ghost" id="btn-clear">Clear</button>
+                <button class="btn-ghost" id="btn-sample">Sample</button>
+              </div>
+            </div>
+            <textarea class="md-textarea" id="md-input" placeholder="# Start typing Markdown here..." spellcheck="false"></textarea>
+            <div class="stats-bar">
+              <span>Input</span>
+              <span><span id="word-count">0</span> words · <span id="char-count">0</span> chars</span>
+            </div>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="md-panel">
+            <div class="md-panel-header">
+              <label class="section-label">OUTPUT</label>
+              <div class="view-toggle">
+                <button class="view-btn active" id="view-preview">Preview</button>
+                <button class="view-btn" id="view-raw">Raw HTML</button>
+              </div>
+              <div class="output-actions">
+                <button class="btn-ghost" id="btn-copy-html">Copy HTML</button>
+                <button class="btn-ghost" id="btn-download">Download</button>
+              </div>
+            </div>
+            <div class="md-preview-area" id="html-preview">
+              <!-- Rendered content goes here -->
+              <div style="color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-sm); padding: var(--space-4);">Rendered HTML preview will appear here...</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Markdown to HTML Converter?</h2>
+        <p>A <strong>markdown to HTML converter</strong> takes lightweight, plain-text formatting syntax (Markdown) and transforms it into valid, structural HTML tags that web browsers understand. Created by John Gruber in 2004, Markdown allows writers to focus on writing without having to deal with complex HTML tags like <code>&lt;strong&gt;</code> or <code>&lt;h1&gt;</code>.</p>
+        <p>ZeroTools provides a high-performance, dual-pane editor that parses your text locally. It translates your Markdown into HTML on every keystroke, allowing you to visually verify the structure in the "Preview" tab, or extract the raw, sanitized code from the "Raw HTML" tab to drop directly into your CMS, blog, or application codebase.</p>
+
+        <h2>How to use the Markdown Converter</h2>
+        <ol>
+          <li><strong>Write or Paste:</strong> Enter your Markdown text in the left panel. The tool begins parsing immediately.</li>
+          <li><strong>Configure Settings:</strong> Above the editor, toggle specific parsing rules. <em>GFM</em> enables GitHub-specific features like tables and task lists. <em>Sanitize Output</em> strips out potentially dangerous raw HTML scripts.</li>
+          <li><strong>Toggle Views:</strong> On the right panel, use the toggle buttons. <strong>Preview</strong> shows how the document will look visually when rendered in a browser. <strong>Raw HTML</strong> exposes the actual `<p>`, `<h1>`, and `<ul>` tags generated.</li>
+          <li><strong>Export:</strong> Click "Copy HTML" to instantly copy the raw HTML output to your clipboard, or click "Download" to save the code locally as a standard `.html` file.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your documents are processed securely in RAM, not on a server.</li>
+          <li>✓ No sign-up or account required.</li>
+          <li>✓ <strong>Live Side-by-Side Preview:</strong> As close to a true WYSIWYG experience as possible for developers.</li>
+          <li>✓ <strong>DOMPurify Security:</strong> Built-in cross-site scripting (XSS) sanitization ensures generated HTML is safe to inject into DOMs.</li>
+          <li>✓ <strong>GitHub Flavored Markdown (GFM):</strong> Full support for the extended syntax developers use daily.</li>
+          <li>✓ <strong>State Persistence:</strong> Reloading the page won't lose your work; input is saved to `localStorage`.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why do I need to Sanitize the Output?</h3>
+        <p>Markdown technically permits users to inject raw HTML directly into the document (e.g., writing <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>). If you take the generated HTML and render it on a public website without sanitizing it, you expose your site to XSS attacks. Our tool uses DOMPurify to strip out malicious scripts while preserving safe formatting.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What is GFM?</h3>
+        <p>GFM stands for GitHub Flavored Markdown. It is an extension of the original Markdown spec that adds support for things highly requested by developers, such as strikethrough text, creating complex tables, autolinking URLs, and generating interactive task lists (checkboxes).</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Will this converter apply CSS styling to my download?</h3>
+        <p>No. This tool generates strictly structural, semantic HTML. It outputs `<h1>`, `<em>`, and `<blockquote>` tags. The visual styling is entirely dependent on the CSS file of the website where you ultimately publish the HTML. The "Preview" tab uses a minimal stylesheet just to provide a clean reading experience within the tool.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/word-counter" class="tool-card">
+            <div class="tool-icon">12</div>
+            <div class="tool-name">Word Counter</div>
+            <div class="tool-desc">Count words, characters, and reading time.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/diff-checker" class="tool-card">
+            <div class="tool-icon">±</div>
+            <div class="tool-name">Diff Checker</div>
+            <div class="tool-desc">Compare two text blocks to find differences.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/html-entity" class="tool-card">
+            <div class="tool-icon">&lt;</div>
+            <div class="tool-name">HTML Entity</div>
+            <div class="tool-desc">Safely encode/decode HTML characters.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/lorem-ipsum" class="tool-card">
+            <div class="tool-icon">"</div>
+            <div class="tool-name">Lorem Ipsum</div>
+            <div class="tool-desc">Generate placeholder text instantly.</div>
+            <div class="tool-tag">Generator</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <!-- Markdown Parsing specific CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+  
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/markdown-html.js"></script>
+
+</body>
+</html>

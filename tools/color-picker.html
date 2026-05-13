@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Color Picker & Contrast Checker — ZeroTools</title>
+  <meta name="description" content="Advanced color picker with real-time HEX, RGB, HSL, and OKLCH conversion. Includes WCAG contrast checker and automated palette generation. Free and client-side.">
+  <meta name="keywords" content="color picker online, hex to rgb, hex to hsl, oklch converter, wcag contrast checker, color palette generator, client side color tool">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools-io.vercel.app/tools/color-picker">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools-io.vercel.app/tools/color-picker">
+  <meta property="og:title" content="Color Picker & Contrast Checker — ZeroTools">
+  <meta property="og:description" content="Advanced color picker with real-time conversion and WCAG contrast checking. 100% offline and secure in your browser.">
+  <meta property="og:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools-io.vercel.app/tools/color-picker">
+  <meta name="twitter:title" content="Color Picker & Contrast Checker — ZeroTools">
+  <meta name="twitter:description" content="Advanced color picker with real-time conversion and WCAG contrast checking. Offline and secure.">
+  <meta name="twitter:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Color Picker & Contrast Checker",
+    "description": "Color picker with HEX, RGB, HSL, and OKLCH conversion. Includes WCAG contrast checker and palette generator.",
+    "url": "https://zerotools-io.vercel.app/tools/color-picker",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specific Color Picker Styles */
+    .color-dashboard {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: var(--space-6);
+    }
+    @media (max-width: 768px) {
+      .color-dashboard { grid-template-columns: 1fr; }
+    }
+
+    /* Left Column: Visual Swatch & Picker */
+    .color-swatch-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .main-swatch-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-default);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+      position: relative;
+    }
+    #color-native {
+      opacity: 0;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      cursor: pointer;
+    }
+    .click-hint {
+      position: absolute;
+      bottom: -24px;
+      width: 100%;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+    .named-match {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      text-align: center;
+      width: 100%;
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* Right Column: Values & Formats */
+    .color-formats {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .format-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      transition: border-color 0.15s ease;
+    }
+    .format-row:focus-within {
+      border-color: var(--accent);
+    }
+    .format-label {
+      width: 60px;
+      padding-left: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .format-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: var(--text-base);
+      padding: 8px 4px;
+      outline: none;
+      min-width: 0;
+    }
+    .format-copy {
+      padding: 8px;
+      background: transparent;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s;
+    }
+    .format-copy:hover {
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+    }
+
+    /* Contrast Checker Section */
+    .contrast-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      margin-top: var(--space-6);
+    }
+    .contrast-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border-default);
+    }
+    .contrast-title {
+      font-family: var(--font-sans);
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .contrast-inputs {
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+      margin-bottom: var(--space-4);
+    }
+    .bg-input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+    .bg-input-wrapper label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    
+    .contrast-results {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      background: var(--bg-tertiary);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-default);
+    }
+    .ratio-display {
+      display: flex;
+      flex-direction: column;
+    }
+    .ratio-val {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xl);
+      font-weight: 600;
+    }
+    .wcag-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Palette Section */
+    .palette-card {
+      margin-top: var(--space-6);
+    }
+    .palette-row {
+      display: flex;
+      width: 100%;
+      height: 60px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: var(--space-3);
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/color-converter">Color Converter</a>
+        <a href="/tools/css-minifier">CSS Minifier</a>
+        <a href="/tools/svg-optimizer">SVG Optimizer</a>
+        <a href="/tools/meta-tag-generator">Meta Tag Gen</a>
+        <a href="/tools/html-entity">HTML Entity</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#convert">Converters</a>
+        <span>/</span>
+        <span>Color Picker</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-convert">Converter</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">Color Picker & Contrast Checker</h1>
+        <p class="tool-intro">A precise color utility for developers. Pick colors, convert instantly between HEX, RGB, HSL, and OKLCH, and verify WCAG contrast compliance offline.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div id="tool">
+
+        <div class="color-dashboard">
+          
+          <!-- Visual Picker & Swatch -->
+          <div class="color-swatch-card">
+            <div class="main-swatch-box" id="color-swatch" style="background-color: var(--accent);">
+              <input type="color" id="color-native" value="#00dc82">
+              <div class="click-hint">Click to open native picker</div>
+            </div>
+            <div class="named-match" id="named-color-match">~springgreen</div>
+          </div>
+
+          <!-- Format Inputs & Conversions -->
+          <div class="color-formats">
+            
+            <div class="format-row">
+              <label class="format-label">HEX</label>
+              <input type="text" class="format-input" id="input-hex" value="#00DC82" spellcheck="false" autocomplete="off">
+              <button class="format-copy copy-trigger" data-target="input-hex" title="Copy HEX">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <div class="format-row">
+              <label class="format-label">RGB</label>
+              <input type="text" class="format-input" id="input-rgb" value="rgb(0, 220, 130)" spellcheck="false" autocomplete="off">
+              <button class="format-copy copy-trigger" data-target="input-rgb" title="Copy RGB">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <div class="format-row">
+              <label class="format-label">HSL</label>
+              <input type="text" class="format-input" id="input-hsl" value="hsl(155, 100%, 43%)" spellcheck="false" autocomplete="off">
+              <button class="format-copy copy-trigger" data-target="input-hsl" title="Copy HSL">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <div class="format-row">
+              <label class="format-label">OKLCH</label>
+              <input type="text" class="format-input" id="input-oklch" value="oklch(0.811 0.175 156)" spellcheck="false" autocomplete="off">
+              <button class="format-copy copy-trigger" data-target="input-oklch" title="Copy OKLCH">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <div class="format-row" style="background: transparent; border-style: dashed;">
+              <label class="format-label">CMYK</label>
+              <input type="text" class="format-input" id="input-cmyk" value="cmyk(100%, 0%, 41%, 14%)" readonly style="color: var(--text-secondary);">
+              <button class="format-copy copy-trigger" data-target="input-cmyk" title="Copy CMYK">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Contrast Checker -->
+        <div class="contrast-card">
+          <div class="contrast-header">
+            <h2 class="contrast-title">WCAG Contrast Checker</h2>
+          </div>
+          
+          <div class="contrast-inputs">
+            <div class="bg-input-wrapper">
+              <label>Compare against Background (HEX)</label>
+              <input type="text" class="input" id="bg-compare" value="#0a0a0a" spellcheck="false">
+            </div>
+          </div>
+
+          <div class="contrast-results">
+            <div class="ratio-display">
+              <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); margin-bottom: 4px;">RATIO</span>
+              <span class="ratio-val" id="contrast-ratio" style="color: var(--color-success);">12.50:1</span>
+            </div>
+            
+            <div style="width: 1px; height: 40px; background: var(--border-default);"></div>
+            
+            <div class="wcag-badges">
+              <span class="badge badge-generate" id="contrast-aa">PASS AA</span>
+              <span class="badge badge-generate" id="contrast-aaa">PASS AAA</span>
+              <span class="badge badge-generate" id="contrast-large">PASS AA (Large)</span>
+            </div>
+            
+            <div style="margin-left: auto; font-size: var(--text-xs); color: var(--text-tertiary); max-width: 200px; line-height: 1.4;">
+              WCAG 2.0 level AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text. AAA requires 7:1.
+            </div>
+          </div>
+        </div>
+
+        <!-- Auto Palette -->
+        <div class="palette-card">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-3);">
+            <h3 style="font-family: var(--font-sans); font-size: var(--text-md); font-weight: 500; color: var(--text-primary);">Tints & Shades</h3>
+            <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary);">Click swatch to set main color</span>
+          </div>
+          <div class="palette-row" id="palette-tints"></div>
+          <div class="palette-row" id="palette-shades"></div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Color Picker & Converter?</h2>
+        <p>A <strong>color picker online</strong> is a fundamental design tool that allows developers and UI/UX designers to select visual colors and instantly translate them into the mathematical color models used by web browsers and graphics software (like CSS, SVG, and Canvas). Color models define how colors are represented on a screen or in print.</p>
+        <p>Our tool goes beyond basic selection. By typing into any format field (HEX, RGB, HSL) or using the visual picker, you trigger real-time, mathematically accurate conversions across all modern web color spaces, including the perceptually uniform <code>OKLCH</code> space, which is rapidly becoming the new standard in modern CSS.</p>
+
+        <h2>How to use the Color Tool</h2>
+        <ol>
+          <li><strong>Pick a color:</strong> Click the large square color swatch to open your operating system's native visual color picker.</li>
+          <li><strong>Input manually:</strong> If you already have a value, type or paste it directly into the HEX, RGB, or HSL text boxes. The tool will automatically parse the string and update all other formats instantly.</li>
+          <li><strong>Check Contrast:</strong> Web accessibility is critical. Enter your website's background color hex code into the Contrast Checker section to instantly see if your selected text color passes WCAG 2.0 AA or AAA guidelines.</li>
+          <li><strong>Explore Palettes:</strong> At the bottom, the tool automatically generates a 10-step monochromatic palette of tints (mixed with white) and shades (mixed with black) based on your active color. Click any step to make it the active color.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your operations run instantly in the browser with zero server latency.</li>
+          <li>✓ <strong>OKLCH Support:</strong> Convert legacy HEX and RGB colors into the modern, perceptual OKLCH color space for better gradients and theming.</li>
+          <li>✓ <strong>Bidirectional Sync:</strong> Edit any field, and all other fields update simultaneously.</li>
+          <li>✓ <strong>Accessibility First:</strong> Native math to calculate WCAG relative luminance and contrast ratios locally.</li>
+          <li>✓ <strong>Named Colors:</strong> Automatically identifies the closest standard CSS named color (e.g., 'cornflowerblue') to your selection using Euclidean distance mapping.</li>
+          <li>✓ Fast copy buttons for every format.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why use OKLCH over HSL?</h3>
+        <p>HSL (Hue, Saturation, Lightness) is easy for humans to understand, but it is not <em>perceptually uniform</em>. In HSL, a lightness of 50% yellow looks much brighter to the human eye than a lightness of 50% blue. OKLCH (Lightness, Chroma, Hue) solves this. If two OKLCH colors have the same Lightness value, they will appear equally bright to the human eye, making it vastly superior for generating accessible color palettes and smooth CSS gradients.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What are WCAG AA and AAA standards?</h3>
+        <p>The Web Content Accessibility Guidelines (WCAG) ensure digital content is readable for people with visual impairments. For text to be readable, it needs sufficient contrast against its background. AA is the minimum standard required by most corporate and government policies (4.5:1 ratio). AAA is the gold standard for maximum readability (7:1 ratio).</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why is the CMYK field read-only?</h3>
+        <p>CMYK (Cyan, Magenta, Yellow, Key/Black) is a subtractive color model used exclusively for physical printing with ink. Web browsers use additive RGB (light). While we provide a mathematical approximation of the CMYK values for reference, true CMYK conversion requires complex ICC color profiles specific to the printer hardware, which cannot be accurately simulated in a web browser sandbox.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/color-converter" class="tool-card">
+            <div class="tool-icon">🎨</div>
+            <div class="tool-name">Color Converter</div>
+            <div class="tool-desc">Dedicated bulk color format converter.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/css-minifier" class="tool-card">
+            <div class="tool-icon">CSS</div>
+            <div class="tool-name">CSS Minifier</div>
+            <div class="tool-desc">Compress and optimize CSS stylesheets.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/svg-optimizer" class="tool-card">
+            <div class="tool-icon">SVG</div>
+            <div class="tool-name">SVG Optimizer</div>
+            <div class="tool-desc">Clean and compress raw SVG code.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/meta-tag-generator" class="tool-card">
+            <div class="tool-icon">&lt;&gt;</div>
+            <div class="tool-name">Meta Tag Gen</div>
+            <div class="tool-desc">Generate HTML SEO and Open Graph tags.</div>
+            <div class="tool-tag">Web</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/color-picker.js"></script>
+
+</body>
+</html>

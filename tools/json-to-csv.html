@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>JSON to CSV Converter — ZeroTools</title>
+  <meta name="description" content="Free online JSON to CSV converter. Instantly transform JSON array payloads into comma-separated values (CSV) for Excel. 100% client-side and secure.">
+  <meta name="keywords" content="json to csv converter, json to excel, convert json array to csv, online json to csv, data format converter">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/json-to-csv">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/json-to-csv">
+  <meta property="og:title" content="JSON to CSV Converter — ZeroTools">
+  <meta property="og:description" content="Free online JSON to CSV converter. Instantly transform JSON array payloads into comma-separated values. 100% offline.">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools.dev/tools/json-to-csv">
+  <meta name="twitter:title" content="JSON to CSV Converter — ZeroTools">
+  <meta name="twitter:description" content="Free online JSON to CSV converter. Instantly transform JSON array payloads into comma-separated values. 100% offline.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JSON to CSV Converter",
+    "description": "Free online JSON to CSV converter. Transform JSON arrays into downloadable CSV files instantly in your browser.",
+    "url": "https://zerotools.dev/tools/json-to-csv",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Tool-specific grid layout */
+    .converter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      align-items: stretch;
+    }
+    @media (max-width: 900px) {
+      .converter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .io-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 400px;
+    }
+    
+    .io-textarea {
+      flex: 1;
+      border: 1px solid var(--border-default);
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      resize: vertical;
+      background: var(--bg-tertiary);
+      padding: var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-primary);
+      line-height: 1.6;
+      white-space: pre;
+      overflow: auto;
+    }
+    .io-textarea:focus {
+      outline: none;
+      box-shadow: inset 0 0 0 2px var(--accent-dim);
+      border-color: var(--accent);
+    }
+    
+    .section-header-tab {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-preview-container {
+      margin-top: var(--space-6);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+    }
+    
+    .table-preview-header {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-elevated);
+    }
+  </style>
+
+  <!-- === ADSENSE === -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- === GA4 === -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/json-formatter">JSON Formatter</a>
+        <a href="/tools/diff-checker">Diff Checker</a>
+        <a href="/tools/word-counter">Word Counter</a>
+        <a href="/tools/base64">Base64 Encoder</a>
+        <a href="/tools/regex-tester">Regex Tester</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#formatters">Formatters</a>
+        <span>/</span>
+        <span>JSON to CSV</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-format">Formatter</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">JSON to CSV Converter</h1>
+        <p class="tool-intro">Convert JSON array payloads into comma-separated values (CSV) instantly. Perfect for translating API responses into Excel-ready data tables without server uploads.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <!-- Tool Options Configuration -->
+        <div class="tool-options" style="display: flex; gap: var(--space-5); flex-wrap: wrap; margin-bottom: var(--space-4); padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <label style="display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 11px;">Delimiter:</span>
+            <select id="delimiter" class="input" style="width: auto; padding: 4px 8px; font-size: var(--text-sm);">
+              <option value="," selected>Comma (,)</option>
+              <option value=";">Semicolon (;)</option>
+              <option value="tab">Tab (\t)</option>
+              <option value="|">Pipe (|)</option>
+            </select>
+          </label>
+          
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-header" checked style="accent-color: var(--accent);"> Include Header Row
+          </label>
+          
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-quote" style="accent-color: var(--accent);"> Quote Strings
+          </label>
+
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm);">
+            <input type="checkbox" id="opt-nullempty" checked style="accent-color: var(--accent);"> Map null to Empty
+          </label>
+        </div>
+
+        <div class="converter-grid">
+          
+          <!-- Input Area -->
+          <div class="io-panel">
+            <div class="section-header-tab">
+              <label class="section-label">JSON INPUT</label>
+              <div class="input-actions" style="display: flex; gap: 8px;">
+                <button class="btn-ghost" id="btn-paste">Paste</button>
+                <button class="btn-ghost" id="btn-sample">Sample</button>
+                <button class="btn-ghost" id="btn-clear">Clear</button>
+              </div>
+            </div>
+            <textarea id="json-input" class="io-textarea" placeholder="Paste your JSON array here... e.g. [{&#34;id&#34;: 1, &#34;name&#34;: &#34;Alice&#34;}]" spellcheck="false"></textarea>
+          </div>
+
+          <!-- Output Area -->
+          <div class="io-panel">
+            <div class="section-header-tab">
+              <label class="section-label">CSV OUTPUT</label>
+              <div class="output-actions" style="display: flex; gap: 8px;">
+                <button class="btn-ghost" id="btn-copy">Copy</button>
+                <button class="btn-ghost" id="btn-download">Download .csv</button>
+              </div>
+            </div>
+            <textarea id="csv-output" class="io-textarea" readonly placeholder="Parsed CSV data will appear here..." spellcheck="false" style="background: var(--bg-primary);"></textarea>
+            
+            <!-- Status Bar -->
+            <div class="output-status" id="status" style="border: 1px solid var(--border-default); border-top: none; background: var(--bg-elevated); padding: var(--space-2) var(--space-4); margin: 0; border-radius: 0 0 var(--radius-md) var(--radius-md); font-family: var(--font-mono); font-size: var(--text-sm); display: flex; align-items: center; gap: 8px;"></div>
+          </div>
+        </div>
+
+        <!-- Table Data Preview -->
+        <div class="table-preview-container">
+          <div class="table-preview-header">
+            <label class="section-label">DATA PREVIEW (FIRST 10 ROWS)</label>
+          </div>
+          <div id="table-preview" style="min-height: 100px; display: flex; flex-direction: column;">
+            <!-- Rendered by JS -->
+            <div style="padding: var(--space-6); text-align: center; color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-sm);">
+              Awaiting valid JSON data...
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btn-run" style="display: none;">Convert</button>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a JSON to CSV Converter?</h2>
+        <p>A <strong>json to csv converter online</strong> is a developer utility designed to translate data structures. JSON (JavaScript Object Notation) is the standard format used by web applications and APIs for transmitting data. It is hierarchical and deeply nested. However, business teams, data analysts, and software like Microsoft Excel or Google Sheets require data to be in a flat, tabular format like CSV (Comma-Separated Values).</p>
+        <p>This converter bridges that gap. By pasting an array of JSON objects, the tool maps the object keys to column headers and extracts the corresponding values into rows, flattening the data into a format that spreadsheet applications can instantly import and analyze.</p>
+
+        <h2>How to use the JSON to CSV Converter</h2>
+        <ol>
+          <li><strong>Input Data:</strong> Paste a valid JSON array of objects into the left input panel. For example: <code>[{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}]</code>.</li>
+          <li><strong>Configure Formatting:</strong> Above the editor, choose your preferred delimiter. Comma is standard, but European users or files containing heavy text might prefer Semicolon or Tab formatting.</li>
+          <li><strong>Preview Data:</strong> Scroll down to the Data Preview panel. The tool will automatically parse the JSON and display a visual HTML table of the first 10 rows to ensure columns aligned correctly.</li>
+          <li><strong>Export:</strong> Click the "Copy" button to grab the raw text to your clipboard, or click "Download .csv" to save the file directly to your hard drive.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your data payloads are processed entirely in your browser. No server uploads means total data privacy for sensitive corporate information.</li>
+          <li>✓ No sign-up, account, or API keys required.</li>
+          <li>✓ <strong>Smart Flattening:</strong> Automatically parses nested objects by stringifying them, and handles arrays by joining them with a pipe (<code>|</code>) character so they don't break the CSV layout.</li>
+          <li>✓ <strong>Robust Escaping:</strong> Safely wraps strings containing quotes, commas, or line breaks in double-quotes to ensure data integrity during import.</li>
+          <li>✓ Handles sparse data objects gracefully (if row 2 has a key that row 1 lacks, the column is still created).</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Can I convert a single JSON object instead of an array?</h3>
+        <p>To produce a tabular CSV file, you need columns and rows. Therefore, the root of your JSON input must be an array (<code>[ ... ]</code>) containing one or more objects. If you have a single object, simply wrap it in square brackets before pasting it into the converter.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What happens to nested JSON objects and arrays?</h3>
+        <p>Standard CSV does not support hierarchical data. If your object contains a nested property (like an array of tags), our engine will flatten it. Arrays are joined into a single string separated by pipes (e.g., <code>tag1|tag2</code>), and nested objects are converted to a JSON string representation within the cell.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why does Excel open my CSV all in one column?</h3>
+        <p>This happens when Excel's regional settings expect a different delimiter than the one used in the file. In many European regions, Excel expects a semicolon (<code>;</code>) instead of a comma. To fix this, change the Delimiter option at the top of the tool to "Semicolon", convert again, and redownload the file.</p>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Is there a file size limit?</h3>
+        <p>Because ZeroTools operates entirely in your browser's memory, the only limit is the available RAM on your computer. Modern browsers can comfortably process and format JSON arrays containing tens of thousands of objects in milliseconds.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/json-formatter" class="tool-card">
+            <div class="tool-icon">{}</div>
+            <div class="tool-name">JSON Formatter</div>
+            <div class="tool-desc">Beautify, minify, and validate JSON payloads.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/diff-checker" class="tool-card">
+            <div class="tool-icon">±</div>
+            <div class="tool-name">Diff Checker</div>
+            <div class="tool-desc">Compare two text files to find differences.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/base64" class="tool-card">
+            <div class="tool-icon">64</div>
+            <div class="tool-name">Base64 Encoder</div>
+            <div class="tool-desc">Encode string data safely for URLs or storage.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/regex-tester" class="tool-card">
+            <div class="tool-icon">/.*/</div>
+            <div class="tool-name">Regex Tester</div>
+            <div class="tool-desc">Test pattern matching logic interactively.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/json-to-csv.js"></script>
+
+</body>
+</html>

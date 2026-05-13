@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>JWT Decoder & Inspector — ZeroTools</title>
+  <meta name="description" content="Decode and inspect JWT tokens instantly securely in your browser. See header, payload, and signature parts. No secret needed. 100% client-side.">
+  <meta name="keywords" content="jwt decoder online, inspect jwt token, decode jwt token, parse jwt, json web token tool, offline jwt decoder">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools-io.vercel.app/tools/jwt-decoder">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools-io.vercel.app/tools/jwt-decoder">
+  <meta property="og:title" content="JWT Decoder & Inspector — ZeroTools">
+  <meta property="og:description" content="Decode and inspect JSON Web Tokens securely. Fast, offline, and 100% client-side processing.">
+  <meta property="og:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools-io.vercel.app/tools/jwt-decoder">
+  <meta name="twitter:title" content="JWT Decoder & Inspector — ZeroTools">
+  <meta name="twitter:description" content="Decode and inspect JSON Web Tokens securely. Fast, offline, and 100% client-side processing.">
+  <meta name="twitter:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JWT Decoder & Inspector",
+    "description": "Decode and inspect JSON Web Tokens without sending secrets. 100% client-side processing.",
+    "url": "https://zerotools-io.vercel.app/tools/jwt-decoder",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/hash-generator">Hash Generator</a>
+        <a href="/tools/base64">Base64 Encoder</a>
+        <a href="/tools/timestamp-converter">Timestamp Converter</a>
+        <a href="/tools/json-formatter">JSON Formatter</a>
+        <a href="/tools/password-generator">Password Generator</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#security">Security</a>
+        <span>/</span>
+        <span>JWT Decoder</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-security">Security</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">JWT Decoder & Inspector</h1>
+        <p class="tool-intro">Instantly decode JSON Web Tokens and verify HMAC signatures. Safely inspect header payloads and standardize claims completely offline.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <!-- Input Section -->
+        <div class="tool-input-section">
+          <div class="section-header">
+            <label class="section-label">JWT TOKEN</label>
+            <div class="input-actions">
+              <button class="btn-ghost" id="btn-paste">Paste</button>
+              <button class="btn-ghost" id="btn-clear">Clear</button>
+              <button class="btn-ghost" id="btn-sample">Load sample</button>
+            </div>
+          </div>
+          <textarea class="textarea" id="input" placeholder="Paste your JWT (ey...) here..." style="min-height: 100px; font-size: var(--text-base); word-break: break-all;"></textarea>
+        </div>
+
+        <!-- Options Row (Dynamically populated by JS for HMAC Secret) -->
+        <div class="tool-options" style="justify-content: space-between;"></div>
+
+        <!-- Action button (Hidden, logic triggers on input) -->
+        <div class="tool-actions">
+          <button class="btn-primary" id="btn-run" style="display: none;">Decode JWT →</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="tool-output-section">
+          <div class="section-header">
+            <label class="section-label">DECODED PAYLOAD</label>
+            <div class="output-actions">
+              <button class="btn-ghost" id="btn-copy">Copy Payload</button>
+              <button class="btn-ghost" id="btn-download">Download (.txt)</button>
+            </div>
+          </div>
+          <!-- Output Panel handled fully by JS for complex layout -->
+          <div class="output-panel" id="output" data-raw="" style="padding: 0; border: none; background: transparent;">
+             <div style="color: var(--text-tertiary);">Decoded token will appear here...</div>
+          </div>
+          <!-- Status bar -->
+          <div class="output-status" id="status"></div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a JWT Decoder?</h2>
+        <p>A <strong>JWT Decoder online</strong> is a developer tool designed to unpack and inspect JSON Web Tokens. JWTs are an open, industry-standard (RFC 7519) method for representing claims securely between two parties. They are widely used for modern web authentication, authorization (like OAuth2), and information exchange.</p>
+        <p>While JWTs appear as a long, cryptic string of characters separated by dots, they are not actually encrypted—they are merely Base64Url encoded. Our tool allows you to paste that string and instantly decode the underlying JSON structure, revealing the token's header, the data payload (claims), and the raw signature, making it an indispensable tool for debugging login flows and API permissions.</p>
+
+        <h2>How to use the JWT Inspector</h2>
+        <ol>
+          <li><strong>Input your Token:</strong> Paste your JWT (which typically starts with `ey...`) into the text area above.</li>
+          <li><strong>Inspect the Payload:</strong> The tool instantly splits the token into three parts: the Header (Algorithm & Token Type), the Payload (Standard and Custom Claims), and the Signature.</li>
+          <li><strong>Verify Signature (Optional):</strong> If your token uses an HMAC-SHA256 signature (HS256), you can paste your secret key into the "HMAC Secret" box. The tool will mathematically verify if the token is valid or forged.</li>
+          <li><strong>Check Expiration:</strong> If the token contains an `exp` claim, the tool will calculate the exact date and show you a real-time countdown of when the token expires (or if it has already expired).</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your access tokens and secret keys never leave your browser.</li>
+          <li>✓ No sign-up or account required.</li>
+          <li>✓ <strong>Color-Coded Analysis:</strong> Instantly visually distinguish the header, payload, and signature blocks.</li>
+          <li>✓ <strong>Offline Signature Verification:</strong> Validates HS256 signatures securely utilizing the browser's native `SubtleCrypto` Web API.</li>
+          <li>✓ <strong>Human-Readable Claims:</strong> Automatically maps standard IANA registered claims (like `iat`, `sub`, `exp`) into readable descriptions.</li>
+          <li>✓ <strong>Expiry Calculator:</strong> Converts Unix epoch timestamps into local human-readable time formatting.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Is it safe to paste my production JWT here?</h3>
+        <p>Yes. ZeroTools operates entirely offline. The decoding algorithm uses native JavaScript `atob` and `JSON.parse` functions directly within your DOM. There are no backend databases, and we do not transmit analytics payloads containing your data. It is fundamentally secure for production tokens.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why can I read the token without the secret key?</h3>
+        <p>This is a common misconception about JWTs. JSON Web Tokens are <strong>encoded</strong> (for safe transmission over HTTP), not <strong>encrypted</strong>. The payload is designed to be readable by anyone who holds the token. The "secret key" is only used to generate the <em>Signature</em>, which ensures the payload hasn't been maliciously altered in transit.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Can this tool decrypt JWE (JSON Web Encryption) tokens?</h3>
+        <p>No. This tool is designed for standard JWS (JSON Web Signatures), which are the most common type of JWT used for authentication. It currently does not support decrypting encrypted payloads.</p>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What does "Signature NOT verified" mean?</h3>
+        <p>By default, because the tool does not know your backend server's private secret key, it cannot guarantee the token is authentic. It simply decodes the visible payload. If you want to verify the signature, you must supply the HS256 secret key in the options field.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/hash-generator" class="tool-card">
+            <div class="tool-icon">##</div>
+            <div class="tool-name">Hash Generator</div>
+            <div class="tool-desc">Calculate MD5, SHA-256, and SHA-512 hashes.</div>
+            <div class="tool-tag">Security</div>
+          </a>
+          <a href="/tools/base64" class="tool-card">
+            <div class="tool-icon">64</div>
+            <div class="tool-name">Base64 Decoder</div>
+            <div class="tool-desc">Encode or decode Base64 strings safely.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/timestamp-converter" class="tool-card">
+            <div class="tool-icon">⌚</div>
+            <div class="tool-name">Timestamp Converter</div>
+            <div class="tool-desc">Convert Unix epochs to human readable dates.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/json-formatter" class="tool-card">
+            <div class="tool-icon">{}</div>
+            <div class="tool-name">JSON Formatter</div>
+            <div class="tool-desc">Beautify and validate raw JSON data.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/jwt-decoder.js"></script>
+
+</body>
+</html>

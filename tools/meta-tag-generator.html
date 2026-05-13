@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Meta Tag Generator — ZeroTools</title>
+  <meta name="description" content="Generate optimal HTML meta tags for SEO and social sharing instantly. Includes live previews for Google, Facebook, and Twitter cards. 100% offline.">
+  <meta name="keywords" content="meta tag generator, seo meta tags, open graph generator, twitter card generator, html head tags, client side tool">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/meta-tag-generator">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/meta-tag-generator">
+  <meta property="og:title" content="Meta Tag Generator — ZeroTools">
+  <meta property="og:description" content="Generate optimal HTML meta tags for SEO and social sharing instantly. Preview how your site looks on Google, Facebook, and Twitter.">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools.dev/tools/meta-tag-generator">
+  <meta name="twitter:title" content="Meta Tag Generator — ZeroTools">
+  <meta name="twitter:description" content="Generate optimal HTML meta tags for SEO and social sharing. Preview live and export code instantly.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Meta Tag Generator",
+    "description": "Generate optimal HTML meta tags for SEO and social sharing instantly with live SERP previews.",
+    "url": "https://zerotools.dev/tools/meta-tag-generator",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specific styles for Meta Tag Generator */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+    
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .label-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    
+    .char-counter {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      transition: color 0.2s;
+    }
+
+    /* Previews */
+    .preview-container {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-bottom: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    
+    .preview-card {
+      background: #ffffff; /* Previews always white background for realism, unless dark mode overrides specifically for preview */
+      border-radius: 8px;
+      overflow: hidden;
+      font-family: Arial, sans-serif; /* Force system sans for realism */
+      color: #1a1a1a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 520px;
+    }
+    
+    [data-theme="dark"] .preview-card {
+        background: #1e1e1e;
+        color: #e8eaed;
+        border: 1px solid #3c4043;
+    }
+
+    /* Google Preview */
+    .serp-preview {
+      padding: 16px;
+    }
+    .serp-url {
+      font-size: 14px;
+      color: #202124;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .serp-url { color: #dadce0; }
+    
+    .serp-title {
+      font-size: 20px;
+      color: #1a0dab;
+      margin: 0 0 4px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    [data-theme="dark"] .serp-title { color: #8ab4f8; }
+    
+    .serp-desc {
+      font-size: 14px;
+      color: #4d5156;
+      line-height: 1.58;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;  
+      overflow: hidden;
+    }
+    [data-theme="dark"] .serp-desc { color: #bdc1c6; }
+
+    /* FB / Twitter Preview */
+    .card-img-placeholder {
+      width: 100%;
+      height: 272px;
+      background-color: var(--bg-tertiary);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .card-content {
+      padding: 12px 16px;
+      border-left: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      background: var(--bg-secondary); /* Matches current theme slightly */
+    }
+    
+    .card-domain {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;  
+      overflow: hidden;
+    }
+
+    .output-textarea {
+      min-height: 350px;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-default);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      white-space: pre;
+      overflow-x: auto;
+    }
+  </style>
+
+  <!-- === ADSENSE === -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- === GA4 === -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/url-encoder">URL Encoder</a>
+        <a href="/tools/json-formatter">JSON Formatter</a>
+        <a href="/tools/html-entity">HTML Entity</a>
+        <a href="/tools/markdown-html">Markdown to HTML</a>
+        <a href="/tools/color-picker">Color Picker</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#web">Web Tools</a>
+        <span>/</span>
+        <span>Meta Tag Generator</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-web">Web</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">Meta Tag Generator</h1>
+        <p class="tool-intro">Fill out the fields to instantly generate HTML header snippets. Ensure perfect SEO formatting and rich social media link previews.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+          
+          <!-- Left Col: Form -->
+          <div class="tool-input-section" style="border: none;">
+            <div class="section-header" style="margin-bottom: var(--space-4);">
+              <label class="section-label">PAGE DETAILS</label>
+              <div class="input-actions">
+                <button class="btn-ghost" id="btn-clear">Clear</button>
+                <button class="btn-ghost" id="btn-sample">Sample</button>
+              </div>
+            </div>
+
+            <form id="meta-form" onsubmit="return false;">
+              <div class="form-grid">
+                
+                <div class="form-group full-width">
+                  <div class="label-header">
+                    <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Page Title</span>
+                    <span class="char-counter" id="count-title">0 / 60</span>
+                  </div>
+                  <input type="text" id="title" class="input" placeholder="e.g. ZeroTools — Privacy-First Utilities" autocomplete="off">
+                </div>
+
+                <div class="form-group full-width">
+                  <div class="label-header">
+                    <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Description</span>
+                    <span class="char-counter" id="count-desc">0 / 160</span>
+                  </div>
+                  <textarea id="description" class="input" style="min-height: 80px;" placeholder="Summarize the page content for search engines..."></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                  <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Keywords (Comma separated)</span>
+                  <input type="text" id="keywords" class="input" placeholder="developer tools, utilities, offline">
+                </div>
+
+                <div class="form-group">
+                  <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Author</span>
+                  <input type="text" id="author" class="input" placeholder="e.g. John Doe">
+                </div>
+
+                <div class="form-group">
+                  <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Canonical URL</span>
+                  <input type="url" id="canonical-url" class="input" placeholder="https://example.com/page">
+                </div>
+
+                <div class="form-group full-width">
+                  <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Open Graph Image URL (1200x630)</span>
+                  <input type="url" id="og-image-url" class="input" placeholder="https://example.com/og-image.png">
+                </div>
+
+                <div class="form-group">
+                  <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Twitter Handle</span>
+                  <input type="text" id="twitter-handle" class="input" placeholder="@username">
+                </div>
+
+                <div class="form-group">
+                  <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase;">Robots</span>
+                  <select id="robots-select" class="input">
+                    <option value="index, follow" selected>Index, Follow</option>
+                    <option value="noindex, follow">No Index, Follow</option>
+                    <option value="index, nofollow">Index, No Follow</option>
+                    <option value="noindex, nofollow">No Index, No Follow</option>
+                  </select>
+                </div>
+
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Col: Output & Previews -->
+          <div class="tool-output-section" style="border: none;">
+            
+            <div class="section-header" style="margin-bottom: var(--space-4);">
+              <label class="section-label">LIVE PREVIEWS</label>
+            </div>
+
+            <div class="preview-container">
+              <!-- Google -->
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); text-transform: uppercase;">Google Search Result</span>
+              <div class="preview-card serp-preview">
+                <div class="serp-url" id="preview-google-url">https://example.com</div>
+                <h3 class="serp-title" id="preview-google-title">Your Page Title</h3>
+                <p class="serp-desc" id="preview-google-desc">Your page description will appear here in search engine results and social media cards.</p>
+              </div>
+
+              <!-- Social Card (FB/Twitter hybrid representation) -->
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; margin-top: 8px;">Social Media Link Preview</span>
+              <div class="preview-card" style="border-radius: 8px; border: 1px solid var(--border-subtle); overflow: hidden;">
+                <div class="card-img-placeholder" id="preview-fb-image">1200 x 630</div>
+                <div class="card-content">
+                  <div class="card-domain" id="preview-fb-domain">EXAMPLE.COM</div>
+                  <h4 class="card-title" id="preview-fb-title">Your Page Title</h4>
+                  <div class="card-desc" id="preview-fb-desc">Your page description will appear here in search engine results and social media cards.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Output Block -->
+            <div class="section-header" style="margin-bottom: var(--space-2);">
+              <label class="section-label">HTML SNIPPET</label>
+              <div class="output-actions">
+                <button class="btn-ghost" id="btn-copy">Copy HTML</button>
+              </div>
+            </div>
+            
+            <textarea id="meta-output" class="input output-textarea" readonly placeholder="Fill out the form to generate meta tags..."></textarea>
+            
+            <div class="output-status" id="status" style="margin-top: var(--space-2); padding: var(--space-2); background: var(--bg-tertiary); border: 1px solid var(--border-default); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-sm);">
+               <!-- Populated by JS -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Meta Tag Generator?</h2>
+        <p>A <strong>Meta Tag Generator</strong> is a crucial tool for web developers, marketers, and SEO specialists. It automates the creation of the HTML <code>&lt;head&gt;</code> tags that search engines (like Google) and social media platforms (like Facebook, Twitter, and LinkedIn) use to understand and display your webpage.</p>
+        <p>These tags dictate how your site looks in search results and when a link is shared in a chat app or timeline. Without correctly formatted Open Graph and Twitter Card tags, shared links often look messy, lack images, and receive significantly fewer clicks.</p>
+
+        <h2>How to use the Generator</h2>
+        <ol>
+          <li>Fill out the "Page Details" form on the left. Start with the core elements: Title, Description, and Canonical URL.</li>
+          <li>Ensure you stay within the optimal character limits shown by the counters. Titles over 60 characters and descriptions over 160 characters will likely be truncated by Google.</li>
+          <li>Provide a direct link to a 1200x630 pixel image for the Open Graph tag. This creates the large, rich preview card when your link is shared on social media.</li>
+          <li>Review the live, simulated previews on the right to ensure your copy looks compelling.</li>
+          <li>Click "Copy HTML" and paste the snippet directly into the <code>&lt;head&gt;</code> section of your HTML document.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your drafted copy and URLs are never sent to our servers.</li>
+          <li>✓ <strong>Live Character Tracking:</strong> Immediate feedback (color-coded warnings) to prevent search engine truncation.</li>
+          <li>✓ <strong>Comprehensive Formatting:</strong> Generates standard SEO tags, Facebook Open Graph (<code>og:</code>), and Twitter Cards (<code>twitter:</code>) in one go.</li>
+          <li>✓ <strong>Real-time Visualizer:</strong> See exactly how your payload will render in a Google search result and as a large social media card.</li>
+          <li>✓ Auto-sanitizes input (escaping quotes and brackets) to ensure HTML syntax remains valid.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Do I still need the "Keywords" tag?</h3>
+        <p>Google officially stopped using the <code>&lt;meta name="keywords"&gt;</code> tag for ranking algorithms over a decade ago. However, some minor search engines or internal site-search tools might still reference it. It is included in this tool for completeness, but your primary SEO focus should be on writing a strong Title and Description.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why do I need both Facebook (Open Graph) and Twitter tags?</h3>
+        <p>While Twitter will fall back to Open Graph (<code>og:</code>) tags if specific Twitter tags are missing, it's best practice to include both. Supplying <code>twitter:card</code> specifically as "summary_large_image" ensures your preview gets maximum vertical real estate on Twitter feeds.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What does "Canonical URL" mean?</h3>
+        <p>The canonical tag (<code>&lt;link rel="canonical"&gt;</code>) tells search engines which version of a URL you want to appear in search results. It prevents duplicate content penalties if your page is accessible via multiple URLs (e.g., with or without "www", or with URL tracking parameters like `?ref=twitter`).</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/url-encoder" class="tool-card">
+            <div class="tool-icon">%20</div>
+            <div class="tool-name">URL Encoder</div>
+            <div class="tool-desc">Encode tracking parameters for your meta URLs.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/word-counter" class="tool-card">
+            <div class="tool-icon">12</div>
+            <div class="tool-name">Word Counter</div>
+            <div class="tool-desc">Analyze character limits and keyword density.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/html-entity" class="tool-card">
+            <div class="tool-icon">&lt;&gt;</div>
+            <div class="tool-name">HTML Entity Encoder</div>
+            <div class="tool-desc">Safely escape symbols for HTML attributes.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/markdown-html" class="tool-card">
+            <div class="tool-icon">M↓</div>
+            <div class="tool-name">Markdown to HTML</div>
+            <div class="tool-desc">Draft page copy and export clean HTML.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/meta-tag-generator.js"></script>
+
+</body>
+</html>

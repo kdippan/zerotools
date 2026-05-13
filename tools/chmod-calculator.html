@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Chmod Calculator — ZeroTools</title>
+  <meta name="description" content="Free online Linux Chmod calculator. Convert file permissions between octal and symbolic notation instantly. 100% client-side.">
+  <meta name="keywords" content="chmod calculator, linux permissions, octal to symbolic, chmod generator, file permissions">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools.dev/tools/chmod-calculator">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/chmod-calculator">
+  <meta property="og:title" content="Chmod Calculator — ZeroTools">
+  <meta property="og:description" content="Free online Linux Chmod calculator. Convert file permissions between octal and symbolic notation instantly.">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools.dev/tools/chmod-calculator">
+  <meta name="twitter:title" content="Chmod Calculator — ZeroTools">
+  <meta name="twitter:description" content="Free online Linux Chmod calculator. Convert file permissions between octal and symbolic notation instantly.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Chmod Calculator",
+    "description": "Convert Linux file permissions between octal and symbolic notation instantly.",
+    "url": "https://zerotools.dev/tools/chmod-calculator",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    /* Specific styles for Chmod Calculator */
+    .chmod-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    @media (max-width: 768px) {
+      .chmod-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .chmod-col {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .col-header {
+      font-family: var(--font-sans);
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: var(--space-2);
+      margin-bottom: var(--space-2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .col-header-sub {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    
+    .checkbox-row input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-default);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+    
+    .checkbox-row input[type="checkbox"]:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    
+    .checkbox-row input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid #000;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    
+    .checkbox-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      user-select: none;
+      transition: color 0.15s;
+    }
+    
+    .checkbox-row:hover .checkbox-label {
+      color: var(--text-primary);
+    }
+    
+    .checkbox-row input[type="checkbox"]:checked + .checkbox-label {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .value-badge {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: auto;
+    }
+
+    /* Output Rows */
+    .output-grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .output-row {
+      display: flex;
+      align-items: stretch;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.15s ease;
+    }
+    
+    .output-row:focus-within {
+      border-color: var(--accent);
+    }
+
+    .output-label-col {
+      width: 140px;
+      padding: var(--space-3);
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-default);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .output-name {
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .output-sub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .output-input-col {
+      flex: 1;
+      position: relative;
+    }
+    
+    .output-input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      padding: var(--space-3) var(--space-8) var(--space-3) var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .output-copy-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    
+    .output-copy-btn:hover {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+
+    /* Input specifically designed for interactive typing */
+    .octal-interactive {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    /* Preset Buttons */
+    .presets-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+    }
+    
+    .preset-btn {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-default);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .preset-btn:hover {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+  </style>
+
+  <!-- === ADSENSE === -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- === GA4 === -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/number-base-converter">Number Converter</a>
+        <a href="/tools/hash-generator">Hash Generator</a>
+        <a href="/tools/uuid-generator">UUID Generator</a>
+        <a href="/tools/timestamp-converter">Timestamp Converter</a>
+        <a href="/tools/cron-generator">Cron Generator</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#convert">Converters</a>
+        <span>/</span>
+        <span>Chmod Calculator</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-convert">Converter</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">Chmod Calculator</h1>
+        <p class="tool-intro">Convert Linux file permissions between octal and symbolic notation. Check boxes to build the command, or type numbers to reverse engineer existing permissions.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <div class="section-header" style="margin-bottom: var(--space-3);">
+          <label class="section-label">PERMISSION BUILDER</label>
+          <div class="input-actions">
+            <button class="btn-ghost" id="btn-clear">Clear All</button>
+          </div>
+        </div>
+
+        <!-- Permission Checkbox Grid -->
+        <div class="chmod-grid">
+          
+          <!-- Owner -->
+          <div class="chmod-col">
+            <div class="col-header">
+              Owner <span class="col-header-sub">User (u)</span>
+            </div>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-owner-read">
+              <span class="checkbox-label">Read</span>
+              <span class="value-badge">4</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-owner-write">
+              <span class="checkbox-label">Write</span>
+              <span class="value-badge">2</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-owner-execute">
+              <span class="checkbox-label">Execute</span>
+              <span class="value-badge">1</span>
+            </label>
+          </div>
+
+          <!-- Group -->
+          <div class="chmod-col">
+            <div class="col-header">
+              Group <span class="col-header-sub">(g)</span>
+            </div>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-group-read">
+              <span class="checkbox-label">Read</span>
+              <span class="value-badge">4</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-group-write">
+              <span class="checkbox-label">Write</span>
+              <span class="value-badge">2</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-group-execute">
+              <span class="checkbox-label">Execute</span>
+              <span class="value-badge">1</span>
+            </label>
+          </div>
+
+          <!-- Others -->
+          <div class="chmod-col">
+            <div class="col-header">
+              Others <span class="col-header-sub">Public (o)</span>
+            </div>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-others-read">
+              <span class="checkbox-label">Read</span>
+              <span class="value-badge">4</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-others-write">
+              <span class="checkbox-label">Write</span>
+              <span class="value-badge">2</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-others-execute">
+              <span class="checkbox-label">Execute</span>
+              <span class="value-badge">1</span>
+            </label>
+          </div>
+
+          <!-- Special -->
+          <div class="chmod-col">
+            <div class="col-header" style="border-bottom-color: var(--border-strong);">
+              Special <span class="col-header-sub">Advanced</span>
+            </div>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-special-setuid">
+              <span class="checkbox-label">Setuid</span>
+              <span class="value-badge">4</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-special-setgid">
+              <span class="checkbox-label">Setgid</span>
+              <span class="value-badge">2</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" class="perm-checkbox" id="perm-special-sticky">
+              <span class="checkbox-label">Sticky</span>
+              <span class="value-badge">1</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="presets-wrap">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); display: flex; align-items: center; padding-right: 8px;">PRESETS:</span>
+          <button class="preset-btn" data-octal="777" title="Everyone can read, write, execute (Unsafe)">777</button>
+          <button class="preset-btn" data-octal="755" title="Web Directories / Scripts (Standard)">755</button>
+          <button class="preset-btn" data-octal="644" title="Web Files / HTML (Standard)">644</button>
+          <button class="preset-btn" data-octal="600" title="Private Files (SSH Keys)">600</button>
+          <button class="preset-btn" data-octal="400" title="Read-only Private">400</button>
+          <button class="preset-btn" data-octal="700" title="Private Directory">700</button>
+          <button class="preset-btn" data-octal="664" title="Shared Group Files">664</button>
+          <button class="preset-btn" data-octal="775" title="Shared Group Dir">775</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="tool-output-section" style="margin-top: var(--space-6);">
+          <div class="section-header">
+            <label class="section-label">RESULTS & COMMANDS</label>
+            <div class="output-status" id="status" style="padding: 0;"></div>
+          </div>
+          
+          <div class="output-grid">
+            
+            <!-- Octal (Interactive) -->
+            <div class="output-row">
+              <div class="output-label-col">
+                <span class="output-name">Octal</span>
+                <span class="output-sub">Editable base-8</span>
+              </div>
+              <div class="output-input-col">
+                <input type="text" class="output-input octal-interactive" id="octal-input" maxlength="4" placeholder="000" autocomplete="off">
+                <button class="output-copy-btn" id="btn-copy-octal" title="Copy Octal">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Symbolic -->
+            <div class="output-row">
+              <div class="output-label-col">
+                <span class="output-name">Symbolic</span>
+                <span class="output-sub">rwx notation</span>
+              </div>
+              <div class="output-input-col">
+                <input type="text" class="output-input" id="symbolic-output" readonly placeholder="---------">
+                <button class="output-copy-btn" id="btn-copy-symbolic" title="Copy Symbolic">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Full Command -->
+            <div class="output-row">
+              <div class="output-label-col">
+                <span class="output-name">Command</span>
+                <span class="output-sub">Ready to paste</span>
+              </div>
+              <div class="output-input-col">
+                <input type="text" class="output-input" id="command-output" readonly placeholder="chmod 000 filename">
+                <button class="output-copy-btn" id="btn-copy-command" title="Copy Command">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Numeric Full (with leading 0) -->
+            <div class="output-row">
+              <div class="output-label-col">
+                <span class="output-name">Numeric</span>
+                <span class="output-sub">Full 4-digit</span>
+              </div>
+              <div class="output-input-col">
+                <input type="text" class="output-input" id="numeric-full-output" readonly placeholder="0000">
+                <button class="output-copy-btn" id="btn-copy-numeric" title="Copy Full Numeric">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container" style="margin-top: var(--space-8);">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Chmod Calculator?</h2>
+        <p>A <strong>Chmod Calculator</strong> is a utility designed to help developers and system administrators easily generate correct numeric (octal) or symbolic values for Linux/Unix file permissions. The `chmod` command (change mode) dictates who can read, write, or execute a file on a server.</p>
+        <p>Because these permissions are based on an octal binary system (base-8) where Read = 4, Write = 2, and Execute = 1, it can be tedious to calculate the correct number manually. Our calculator provides a visual interface to build the exact permissions you need without the math.</p>
+
+        <h2>How to use the Permission Builder</h2>
+        <ol>
+          <li><strong>Checkbox Mode:</strong> Simply check the boxes for the permissions you want to grant to the Owner, Group, and Public/Others. The Octal, Symbolic, and Command outputs will update instantly below.</li>
+          <li><strong>Reverse Mode:</strong> If you are looking at an existing octal string (like <code>644</code>) and want to know what it means, click the "Octal" output box and type the number. The checkboxes will automatically update to reflect those permissions.</li>
+          <li><strong>Copy Command:</strong> Once your permissions are set, copy the full <code>chmod 755 filename</code> command and paste it directly into your terminal.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your queries run locally in your browser.</li>
+          <li>✓ No sign-up or account required.</li>
+          <li>✓ <strong>Bidirectional Sync:</strong> Edit the checkboxes to generate the octal, or type the octal to see the checkboxes update.</li>
+          <li>✓ <strong>Advanced Special Bits:</strong> Full support for <code>setuid</code>, <code>setgid</code>, and the <code>sticky bit</code> for complex system administration tasks.</li>
+          <li>✓ <strong>One-Click Presets:</strong> Instantly apply common configurations like "644 for files" or "755 for directories".</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What do the numbers 4, 2, and 1 mean?</h3>
+        <p>Linux permissions are represented in binary. Read is represented by `100` in binary (which is 4 in decimal/octal). Write is `010` (2). Execute is `001` (1). When you want a user to have both Read and Write access, you add the numbers together: 4 + 2 = 6.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What are standard permissions for a web server?</h3>
+        <p>If you are setting up files for a web server like Nginx or Apache, generally directories should be set to <code>755</code> (Owner can rwx, others can rx) so the server can enter the folder. Standard files like `.html` or `.php` should be <code>644</code> (Owner can rw, others can only read).</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What does the 4th digit in the "Numeric Full" output do?</h3>
+        <p>The standard three-digit octal (like 755) actually implies a hidden leading zero (0755). That first digit represents the "Special" bits: Setuid (4), Setgid (2), and Sticky (1). These are advanced flags used to control execution privileges and directory deletion rules on shared systems.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/number-base-converter" class="tool-card">
+            <div class="tool-icon">10</div>
+            <div class="tool-name">Number Converter</div>
+            <div class="tool-desc">Convert between Hex, Binary, and Decimal.</div>
+            <div class="tool-tag">Converter</div>
+          </a>
+          <a href="/tools/hash-generator" class="tool-card">
+            <div class="tool-icon">##</div>
+            <div class="tool-name">Hash Generator</div>
+            <div class="tool-desc">Generate secure hashes like SHA-256 instantly.</div>
+            <div class="tool-tag">Security</div>
+          </a>
+          <a href="/tools/cron-generator" class="tool-card">
+            <div class="tool-icon">⏱️</div>
+            <div class="tool-name">Cron Generator</div>
+            <div class="tool-desc">Build complex cron job schedules visually.</div>
+            <div class="tool-tag">Generator</div>
+          </a>
+          <a href="/tools/uuid-generator" class="tool-card">
+            <div class="tool-icon">#</div>
+            <div class="tool-name">UUID Generator</div>
+            <div class="tool-desc">Generate random v4 UUIDs for database keys.</div>
+            <div class="tool-tag">Generator</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/chmod-calculator.js"></script>
+
+</body>
+</html>

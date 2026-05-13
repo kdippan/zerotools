@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>URL Encoder & Decoder — ZeroTools</title>
+  <meta name="description" content="Encode or decode URLs and query strings online. Supports encodeURIComponent and full URL encoding. Free, instant, and 100% client-side.">
+  <meta name="keywords" content="url encode online, url decoder, encodeURIComponent, uri encoding, parse query string, client-side url tool">
+  <meta name="author" content="Dippan Bhusal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zerotools-io.vercel.app/tools/url-encoder">
+
+  <!-- === OPEN GRAPH === -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools-io.vercel.app/tools/url-encoder">
+  <meta property="og:title" content="URL Encoder & Decoder — ZeroTools">
+  <meta property="og:description" content="Encode or decode URLs and parse query strings securely in your browser. Fast, free, and completely offline.">
+  <meta property="og:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dippanbhusal">
+  <meta name="twitter:creator" content="@dippanbhusal">
+  <meta name="twitter:url" content="https://zerotools-io.vercel.app/tools/url-encoder">
+  <meta name="twitter:title" content="URL Encoder & Decoder — ZeroTools">
+  <meta name="twitter:description" content="Encode or decode URLs securely in your browser. Fast, free, and completely offline.">
+  <meta name="twitter:image" content="https://zerotools-io.vercel.app/assets/og-image.png">
+
+  <!-- === FAVICON === -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "URL Encoder & Decoder",
+    "description": "Encode or decode URLs and query strings online. Supports encodeURIComponent and full URL encoding.",
+    "url": "https://zerotools-io.vercel.app/tools/url-encoder",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { 
+      "@type": "Person", 
+      "name": "Dippan Bhusal", 
+      "url": "https://github.com/kdippan" 
+    }
+  }
+  </script>
+
+  <!-- === FONTS & STYLES === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align: middle; margin-right: 8px;">
+        <rect width="32" height="32" rx="4" fill="var(--bg-primary)" stroke="var(--border-default)"/>
+        <path d="M9 10 H23 L9 22 H23" stroke="var(--accent)" stroke-width="3" stroke-linecap="square"/>
+      </svg>
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools (e.g., json, base64, regex)..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/base64">Base64 Encoder</a>
+        <a href="/tools/html-entity">HTML Entity Encoder</a>
+        <a href="/tools/json-formatter">JSON Formatter</a>
+        <a href="/tools/meta-tag-generator">Meta Tag Gen</a>
+        <a href="/tools/regex-tester">Regex Tester</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ AD ]</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#encode">Encoders</a>
+        <span>/</span>
+        <span>URL Encoder</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-encode">Encoder</span>
+          <span class="tool-privacy-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Client-side only
+          </span>
+        </div>
+        <h1 class="tool-title">URL Encoder & Decoder</h1>
+        <p class="tool-intro">Safely encode or decode URLs and URI components online. Instantly parse complex query strings into readable data tables directly in your browser.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <!-- Input Section -->
+        <div class="tool-input-section">
+          <div class="section-header">
+            <label class="section-label">INPUT STRING</label>
+            <div class="input-actions">
+              <button class="btn-ghost" id="btn-paste">Paste</button>
+              <button class="btn-ghost" id="btn-clear">Clear</button>
+              <button class="btn-ghost" id="btn-sample">Load sample</button>
+            </div>
+          </div>
+          <textarea class="textarea" id="input" placeholder="Paste your URL, text, or query string here..."></textarea>
+        </div>
+
+        <!-- Options Row -->
+        <div class="tool-options" style="justify-content: space-between;">
+          <div style="display: flex; gap: var(--space-4);">
+            <label>
+              <input type="radio" name="mode" value="encode" checked> Encode
+            </label>
+            <label>
+              <input type="radio" name="mode" value="decode"> Decode
+            </label>
+          </div>
+          
+          <div style="display: flex; gap: var(--space-4);">
+            <label title="Encodes individual query parameters (encodeURIComponent)">
+              <input type="radio" name="submode" value="component" checked> Component
+            </label>
+            <label title="Encodes an entire URL, leaving :/?=& alone (encodeURI)">
+              <input type="radio" name="submode" value="uri"> Full URI
+            </label>
+          </div>
+        </div>
+
+        <!-- Action button -->
+        <div class="tool-actions">
+          <button class="btn-primary" id="btn-run" style="display: none;">Process URL</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="tool-output-section">
+          <div class="section-header">
+            <label class="section-label">OUTPUT RESULT</label>
+            <div class="output-actions">
+              <button class="btn-ghost" id="btn-copy">Copy Result</button>
+              <button class="btn-ghost" id="btn-download">Download (.txt)</button>
+            </div>
+          </div>
+          <div class="output-panel" id="output" data-raw="">
+             <div style="color: var(--text-tertiary);">Result will appear here...</div>
+          </div>
+          <!-- Status bar -->
+          <div class="output-status" id="status"></div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a URL Encoder?</h2>
+        <p>A <strong>URL encoder online</strong> is a utility that converts special characters in a text string into a format that can be safely transmitted over the Internet within a Uniform Resource Locator (URL). URLs can only be sent across the internet using the ASCII character set. Any characters outside this set (like spaces, emojis, or specific punctuation) must be converted into a valid ASCII format, typically by replacing the unsafe character with a `%` followed by two hexadecimal digits.</p>
+        <p>This process is also known as <em>Percent-encoding</em>. Our tool allows you to instantly safely encode your payloads for network transport, or decode heavily encoded URLs back into readable formats to see exactly what parameters are being passed.</p>
+
+        <h2>How to use the URL Encoder & Decoder</h2>
+        <ol>
+          <li><strong>Input:</strong> Paste your URL or text payload into the primary text box.</li>
+          <li><strong>Select Mode:</strong> Choose between "Encode" (to convert text into URL-safe characters) or "Decode" (to revert `%` hex codes back to normal text).</li>
+          <li><strong>Select Sub-Mode:</strong> 
+            <ul>
+                <li><strong>Component (`encodeURIComponent`):</strong> Use this when encoding individual query string values. It encodes almost everything, including `/`, `?`, and `&`.</li>
+                <li><strong>Full URI (`encodeURI`):</strong> Use this when encoding a complete URL string. It leaves syntax characters like `http://` and `?=` alone.</li>
+            </ul>
+          </li>
+          <li><strong>Review Results:</strong> The tool processes your text instantly as you type. If your input represents a valid full URL or query string, the tool will automatically parse the components into a detailed, readable data table below the raw output.</li>
+        </ol>
+
+        <h2>Features of this Tool</h2>
+        <ul>
+          <li>✓ 100% client-side — your URLs and query parameters are never logged on our servers.</li>
+          <li>✓ No sign-up or account required.</li>
+          <li>✓ <strong>Live Execution:</strong> Results update instantly on every keystroke.</li>
+          <li>✓ <strong>Smart Parsing:</strong> Automatically detects full URLs and breaks them down into Protocol, Host, Path, and specific Query Parameters in an easy-to-read table.</li>
+          <li>✓ <strong>Query String Extraction:</strong> Paste a complex `?key=value` string and instantly see it formatted as a clean, syntax-highlighted dictionary.</li>
+          <li>✓ Safely handles the decoding of `+` symbols as spaces (a common legacy form encoding standard).</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">What is the difference between encodeURI and encodeURIComponent?</h3>
+        <p>In JavaScript, `encodeURI()` is used to encode a completely formed URL, meaning it does not touch characters that have special meaning in a URL structure (like `://`, `?`, `&`, or `=`). <br><br>`encodeURIComponent()` is used to encode a specific *piece* of a URL, like a query string parameter value. It encodes almost everything. If you encode `https://google.com` with it, it becomes `https%3A%2F%2Fgoogle.com`, which breaks the URL.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Why are spaces converted to %20?</h3>
+        <p>URLs cannot contain spaces. The ASCII standard dictates that a space must be percent-encoded to its hexadecimal equivalent, which is `20`. Therefore, a space becomes `%20`.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Is this safe for sensitive API tokens?</h3>
+        <p>Yes. ZeroTools operates entirely offline within your browser's local memory. The JavaScript processing logic never phones home or transmits your data to an external API. It is safe to use for sensitive tokens, API keys, or private URLs.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+         <span style="color:var(--text-muted); font-family:var(--font-mono); font-size:11px;">[ ADVERTISEMENT SPACE ]</span>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/base64" class="tool-card">
+            <div class="tool-icon">64</div>
+            <div class="tool-name">Base64 Encoder</div>
+            <div class="tool-desc">Encode text and files to Base64 format.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/html-entity" class="tool-card">
+            <div class="tool-icon">&lt;</div>
+            <div class="tool-name">HTML Entity</div>
+            <div class="tool-desc">Safely encode/decode HTML characters.</div>
+            <div class="tool-tag">Encoder</div>
+          </a>
+          <a href="/tools/json-formatter" class="tool-card">
+            <div class="tool-icon">{}</div>
+            <div class="tool-name">JSON Formatter</div>
+            <div class="tool-desc">Beautify and validate raw JSON data.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/regex-tester" class="tool-card">
+            <div class="tool-icon">/.*/</div>
+            <div class="tool-name">Regex Tester</div>
+            <div class="tool-desc">Test and debug regular expressions.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side processing.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/url-encoder.js"></script>
+
+</body>
+</html>

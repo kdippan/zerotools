@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- === SEO META === -->
+  <title>Word Counter & Character Counter — ZeroTools</title>
+  <meta name="description" content="Free online word counter and character counter. Analyze word frequency, keyword density, reading time, and speaking time instantly. 100% client-side.">
+  <meta name="keywords" content="word counter online, character counter, word frequency counter, reading time calculator, keyword density tool, text analyzer">
+  <link rel="canonical" href="https://zerotools.dev/tools/word-counter">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Word Counter & Character Counter — ZeroTools">
+  <meta property="og:description" content="Analyze your text with surgical precision. Count words, characters, and sentences instantly in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zerotools.dev/tools/word-counter">
+  <meta property="og:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta property="og:site_name" content="ZeroTools">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Word Counter & Character Counter — ZeroTools">
+  <meta name="twitter:description" content="Free online word counter and character counter. Analyze text length and density offline.">
+  <meta name="twitter:image" content="https://zerotools.dev/assets/og-image.png">
+  <meta name="twitter:creator" content="@dippanbhusal">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Word Counter",
+    "description": "Analyze word frequency, keyword density, reading time, and speaking time instantly.",
+    "url": "https://zerotools.dev/tools/word-counter",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { "@type": "Person", "name": "Dippan Bhusal", "url": "https://github.com/kdippan" }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/tool.css">
+
+  <style>
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
+    }
+    .stat-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+    }
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .analysis-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-top: var(--space-6);
+    }
+    @media (max-width: 768px) {
+      .analysis-container { grid-template-columns: 1fr; }
+    }
+    .density-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+    }
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+    }
+    th {
+      text-align: left;
+      padding: 8px 12px;
+      color: var(--text-tertiary);
+      border-bottom: 1px solid var(--border-strong);
+    }
+  </style>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+    </a>
+    <div class="navbar-search">
+      <input type="search" id="global-search" placeholder="Search tools..." autocomplete="off">
+      <div id="search-results" class="search-dropdown" hidden></div>
+    </div>
+    <div class="navbar-actions">
+      <a href="https://github.com/kdippan/zerotools" target="_blank" class="btn-ghost" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      </a>
+      <button id="theme-toggle" class="btn-ghost" aria-label="Toggle theme">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="tool-page-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="tool-sidebar">
+      <p class="sidebar-label">Related tools</p>
+      <nav class="sidebar-nav">
+        <a href="/tools/diff-checker">Diff Checker</a>
+        <a href="/tools/markdown-html">Markdown to HTML</a>
+        <a href="/tools/lorem-ipsum">Lorem Ipsum</a>
+        <a href="/tools/regex-tester">Regex Tester</a>
+        <a href="/tools/meta-tag-generator">Meta Tag Gen</a>
+      </nav>
+      <div class="ad-container sidebar-ad">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+
+      <!-- BREADCRUMB -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/#text">Text</a>
+        <span>/</span>
+        <span>Word Counter</span>
+      </nav>
+
+      <!-- TOOL HEADER -->
+      <div class="tool-header">
+        <div class="tool-header-meta">
+          <span class="badge badge-text">Text</span>
+          <span class="tool-privacy-badge">🔒 Client-side only</span>
+        </div>
+        <h1 class="tool-title">Word & Character Counter</h1>
+        <p class="tool-intro">Analyze your text instantly with our privacy-focused word counter. Calculate keyword density, reading time, and word frequency without ever uploading your data.</p>
+      </div>
+
+      <!-- AD UNIT 1 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- TOOL INTERFACE -->
+      <div class="tool-interface" id="tool">
+
+        <div class="stat-grid">
+          <div class="stat-card"><span class="stat-label">Words</span><span class="stat-value" id="stat-words">0</span></div>
+          <div class="stat-card"><span class="stat-label">Characters</span><span class="stat-value" id="stat-chars">0</span></div>
+          <div class="stat-card"><span class="stat-label">No Spaces</span><span class="stat-value" id="stat-chars-nospace">0</span></div>
+          <div class="stat-card"><span class="stat-label">Sentences</span><span class="stat-value" id="stat-sentences">0</span></div>
+          <div class="stat-card"><span class="stat-label">Paragraphs</span><span class="stat-value" id="stat-paragraphs">0</span></div>
+        </div>
+
+        <div class="tool-input-section">
+          <div class="section-header">
+            <label class="section-label">TEXT INPUT</label>
+            <div class="input-actions">
+              <button class="btn-ghost" id="btn-paste">Paste</button>
+              <button class="btn-ghost" id="btn-clear">Clear</button>
+              <button class="btn-ghost" id="btn-sample">Load sample</button>
+            </div>
+          </div>
+          <textarea class="textarea" id="input" placeholder="Start typing or paste your text here..." style="min-height: 300px;"></textarea>
+        </div>
+
+        <div id="limit-progress-container" style="display: none; margin-top: var(--space-4);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <label class="section-label">Limit Progress</label>
+            <span id="limit-warning" class="stat-label"></span>
+          </div>
+          <div style="width: 100%; height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden;">
+            <div id="limit-progress-bar" style="width: 0%; height: 100%; background: var(--accent); transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+
+        <div class="tool-options" style="margin-top: var(--space-6);">
+          <div style="display: flex; align-items: center; gap: var(--space-4);">
+            <label class="section-label">Char Limit</label>
+            <input type="number" id="char-limit" class="input" placeholder="None" style="width: 100px;">
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--space-4); flex: 1;">
+            <label class="section-label">Check Keyword</label>
+            <input type="text" id="kw-input" class="input" placeholder="e.g. privacy" style="max-width: 200px;">
+            <span class="stat-label">Count: <span id="kw-count" class="accent">0</span></span>
+            <span class="stat-label">Density: <span id="kw-percent" class="accent">0%</span></span>
+          </div>
+        </div>
+
+        <div class="analysis-container">
+          <div class="density-card">
+            <label class="section-label" style="display: block; margin-bottom: var(--space-4);">Reading & Speaking Time</label>
+            <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="stat-label">Average Reading</span>
+                <span id="stat-read-time" class="stat-value" style="font-size: var(--text-base);">&lt; 1 min</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="stat-label">Average Speaking</span>
+                <span id="stat-speak-time" class="stat-value" style="font-size: var(--text-base);">&lt; 1 min</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="density-card">
+            <label class="section-label" style="display: block; margin-bottom: var(--space-4);">Top 10 Word Frequency</label>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Word</th>
+                    <th>Freq.</th>
+                    <th>Scale</th>
+                  </tr>
+                </thead>
+                <tbody id="top-words-table">
+                  <tr><td colspan="3" style="text-align: center; color: var(--text-tertiary); padding: 16px;">No words analyzed</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AD UNIT 2 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- EXPLAINER CONTENT -->
+      <section class="tool-explainer">
+        <h2>What is a Word Counter?</h2>
+        <p>A <strong>word counter online</strong> is an essential utility for writers, developers, and SEO specialists that analyzes a text string to determine its length and density. Beyond a simple tally of characters, a professional-grade word counter provides insights into the structure of the document—calculating sentences, paragraphs, and reading time based on linguistic averages. It is used to meet strict character limits for social media, academic essays, or metadata fields.</p>
+        <p>ZeroTools provides a "Terminal Minimal" text analyzer that processes your data entirely within your browser's RAM. Whether you are checking the keyword density of a blog post or the length of a README file, your content is never sent to our servers. This ensures that sensitive drafts and proprietary documentation remain strictly confidential.</p>
+
+        <h2>How to use the Word Counter</h2>
+        <ol>
+          <li>Paste your text into the primary input box or start typing manually.</li>
+          <li>Observe the real-time statistics update in the grid at the top of the page.</li>
+          <li>Enter a keyword in the "Check Keyword" field to calculate its frequency and density percentage within your text.</li>
+          <li>Set a "Char Limit" if you are writing for a platform with strict constraints (like Twitter or meta descriptions) to see a visual progress bar.</li>
+          <li>Review the "Top 10 Word Frequency" table to identify repetitive vocabulary and improve the quality of your writing.</li>
+        </ol>
+
+        <h2>Features</h2>
+        <ul>
+          <li>✓ 100% client-side — your text is analyzed locally for absolute privacy.</li>
+          <li>✓ No sign-up or account required.</li>
+          <li>✓ <strong>Detailed Linguistics:</strong> Accurate counts for words, characters (with and without spaces), sentences, and paragraphs.</li>
+          <li>✓ <strong>Speed Analysis:</strong> Estimates both reading time (silent) and speaking time (aloud) based on industry-standard WPM averages.</li>
+          <li>✓ <strong>Keyword Density:</strong> Real-time tracking of specific words to prevent over-optimization or repetitive phrasing.</li>
+          <li>✓ <strong>Character Limit Tracking:</strong> A visual progress bar that turns from green to yellow to red as you approach your defined limit.</li>
+        </ul>
+
+        <h2>FAQ</h2>
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">How is reading time calculated?</h3>
+        <p>We use an industry-standard average reading speed of 238 words per minute (WPM). This provides a realistic estimate for the time it takes an average adult to consume your content silently. Speaking time is calculated at a slower pace of 130 WPM, which is the typical speed for conversational speech.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Are spaces included in the character count?</h3>
+        <p>Yes. By default, the "Characters" stat includes every byte in the text, including spaces, tabs, and newlines. However, we also provide a "No Spaces" metric for specific use cases where you only need the count of the actual letters and punctuation marks.</p>
+
+        <h3 style="font-size: var(--text-base); margin-top: var(--space-4);">Does this tool save my text?</h3>
+        <p>ZeroTools uses `localStorage` to save your last input locally in your browser so you don't lose work if the page is refreshed[cite: 1, 2]. We have no backend server, database, or analytics that capture the actual text you input. Your data remains in your control at all times.</p>
+      </section>
+
+      <!-- AD UNIT 3 -->
+      <div class="ad-container">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- RELATED TOOLS GRID -->
+      <section class="related-tools">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          <a href="/tools/diff-checker" class="tool-card">
+            <div class="tool-icon">±</div>
+            <div class="tool-name">Diff Checker</div>
+            <div class="tool-desc">Compare two text blocks to find differences.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+          <a href="/tools/markdown-html" class="tool-card">
+            <div class="tool-icon">M↓</div>
+            <div class="tool-name">Markdown to HTML</div>
+            <div class="tool-desc">Convert and preview Markdown code side-by-side.</div>
+            <div class="tool-tag">Formatter</div>
+          </a>
+          <a href="/tools/lorem-ipsum" class="tool-card">
+            <div class="tool-icon">"</div>
+            <div class="tool-name">Lorem Ipsum</div>
+            <div class="tool-desc">Generate placeholder text for your mockups.</div>
+            <div class="tool-tag">Generator</div>
+          </a>
+          <a href="/tools/regex-tester" class="tool-card">
+            <div class="tool-icon">/.*</div>
+            <div class="tool-name">Regex Tester</div>
+            <div class="tool-desc">Test regular expressions with real-time matching.</div>
+            <div class="tool-tag">Text</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-zero">Zero</span><span class="brand-tools">Tools</span>
+        <p>Privacy-first developer utilities. 100% client-side.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="/tools/json-formatter">JSON Formatter</a>
+          <a href="/tools/base64">Base64</a>
+          <a href="/tools/uuid-generator">UUID Generator</a>
+          <a href="/tools/regex-tester">Regex Tester</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/kdippan/zerotools" target="_blank">GitHub</a>
+          <a href="https://buymeacoffee.com/dippanbhusal" target="_blank">Buy Me a Coffee</a>
+          <a href="https://github.com/sponsors/kdippan" target="_blank">Sponsor</a>
+        </div>
+        <div class="footer-col">
+          <h4>By @kdippan</h4>
+          <a href="https://github.com/kdippan" target="_blank">GitHub</a>
+          <a href="https://x.com/dippanbhusal" target="_blank">X / Twitter</a>
+          <a href="https://linkedin.com/in/kdippan" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Open source. MIT License. Made with ☕ by Dippan Bhusal.</span>
+      <span>No data ever leaves your browser.</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="/js/tool-registry.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/tools/word-counter.js"></script>
+
+</body>
+</html>
