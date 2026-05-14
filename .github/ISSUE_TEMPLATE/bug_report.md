@@ -22,9 +22,10 @@ assignees: kdippan
 <!-- A clear and concise description of what you expected to happen. -->
 
 ## Environment:
- - OS: [e.g. macOS, Windows, Linux]
- - Browser: [e.g. Chrome, Firefox, Safari]
- - Version: [e.g. 114]
+ - **Occurrence:** Did this happen on the live site (https://zerotools-io.vercel.app) or your local environment?
+ - **OS:** [e.g. macOS, Windows, Linux]
+ - **Browser:** [e.g. Chrome, Firefox, Safari]
+ - **Version:** [e.g. 114]
 
 ## Screenshots / Console Logs
 <!-- If applicable, add screenshots or copy-paste the browser console error here. -->
